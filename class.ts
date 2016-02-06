@@ -2,8 +2,8 @@ class Panel {
 	uploader : User;
 	stripPanel : any;
 	constructor(public username, public uploaded) {
-        this.uploader = username;
-        this.stripPanel = uploaded;
+        	this.uploader = username;
+        	this.stripPanel = uploaded;
     }
 }
 
@@ -17,8 +17,8 @@ class User {
 	profile : [string];
 	workspaces : [Workspace];
 	constructor(public name, public key) {
-        this.username = name;
-        this.password = key;
+        	this.username = name;
+        	this.password = key;
     }
 }
 
