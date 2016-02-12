@@ -1,0 +1,279 @@
+<!--
+http://www.dynamicdrive.com/forums/entry.php?293-3-Ways-to-Resize-Scale-Web-Images-in-Responsive-Design
+
+http://alijafarian.com/responsive-image-grids-using-css/
+!-->
+<!DOCTYPE html>
+<html>
+    <head><title>Home</title>
+      <style>
+        body{
+          background-color: grey;
+        }
+        #banner {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          right: 0px;
+          width: 100%;
+          height: 200px;
+          z-index: -1;
+        }
+        #navbar {
+          position: absolute;
+          top: 200px;
+          left: 0px;
+          right: 0px;
+          width: 100%;
+          z-index: -1;
+
+        }
+        #navbar ul{
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #333;
+        }
+        #navbar li{
+          float: left;
+          border-right:1px solid #bbb;
+        }
+        #navbar li:last-child{
+          border-right: none;
+        }
+        #navbar li a{
+          display:block;
+          color:white;
+          text-align: center;
+          padding: 15px 15px;
+          text-decoration: none;
+        }
+        #navbar li a:hover{
+          background-color:#111;
+        }
+
+        .title{
+
+          position: absolute;
+          left: 50%;
+          margin-right: -50%;
+          transform: translate(-50%,-50%);
+          top: 285px;
+          z-index: -1;
+        }
+
+
+        .fixed-ratio-resize { /* basic responsive img */
+        	max-width: 25%;
+        	height: auto;
+        	width: auto\9; /* IE8 */
+        }
+
+        ul.image_grid {
+        	list-style: none;
+        	font-size: 0px;
+        	margin-left: -7%; /* should match li left margin */
+          position:absolute;
+          top: 400px;
+        }
+        ul.image_grid li {
+        	display: inline-block;
+        	padding: 10px;
+        	margin: 0 0 2.5% 2.5%;
+        	background: #fff;
+        	border: 1px solid #ddd;
+        	font-size: 16px;
+        	font-size: 1rem;
+        	vertical-align: top;
+        	box-shadow: 0 0 5px #ddd;
+        	box-sizing: border-box;
+        	-moz-box-sizing: border-box;
+        	-webkit-box-sizing: border-box;
+        }
+        ul.image_grid li img {
+        	max-width: 100%;
+        	height: auto;
+        	margin: 0 0 10px;
+        }
+        ul.image_grid li h3 {
+        	margin: 0 0 5px;
+        }
+        ul.image_grid li p {
+        	font-size: .9em;
+        	line-height: 1.5em;
+        	color: #999;
+        }
+        ul.image_grid.columns-3 li {
+        	width: 30.83%; /* this value + 2.5 should = 33% */
+        }
+
+        .prev {
+          position: absolute;
+          left: 100px;
+          top: 650px;
+          overflow:hidden
+          float: left;
+          color: black;
+        }
+
+        .next {
+          position: absolute;
+          right: 20px;
+          top: 650px;
+          overflow:hidden
+          float: right;
+          color: black;
+        }
+
+
+        #login_box {
+          width:300px;
+          height:100px;
+          position:absolute;
+          top:25%;
+          left:25%;
+          margin:-50px 0 0 -150px; /* [-(height/2)px 0 0 -(width/2)px] */
+          padding: 10px;
+          display:none;
+          z-index: 100;
+          background-color: lightgrey
+        }
+
+      </style>
+    </head>
+    <body>
+    <script src="Login_Box.js"></script>
+
+
+        <img id="banner" src="header.jpg" alt="Header Image">
+        <div id="navbar">
+          <ul>
+            <li><a href="javascript:void(0);">Home</a></li>
+            <li><a href="javascript:void(0);" id=bttnaccount>Account</button></li>
+            <!--Add links here!-->
+            <ul style="float:right; padding: 15px 15px;">
+              <li><input type="search" value="Search"></li>
+            </ul>
+          </ul>
+        </div>
+
+
+        <a href="#Display" id=bttnaccount></a>  <!-- for some reason this needs
+        to be here, otherwise the text in  the login box looks like a link ?? !-->
+
+        <div id="login_box">
+          <form id="login_form" action='/login' class='form-signin' accept-charset="utf-8" method='POST'>
+            <fieldset>
+              <legend>Login:</legend>
+              Username: <input id="username" class='form-signin' type="text" required><br>
+              Password: <input id="password" class='form-signin' type="password" required><br>
+              <input id="bttnlogin" type="submit" value="Log In">
+              <input id="bttncancel_login" type="button" value="Cancel">
+            </fieldset>
+            <a href='/signup'>Create an account</a>
+          </form>
+        </div>
+
+        <h1 class="title" allign="center">Collaborative Comics</h1>
+
+      <script src="Image_Browser.js"></script>
+
+        <ul class="image_grid columns-3">
+          <li>
+            <img id="img1" class="fixed-ratio-resize" src="placeholder.png" alt="1"/>
+            <h3 id='ttl1'>Title</h3>
+            <p id='auth1'>Author(s)</p>
+          </li>
+          <li>
+            <img id="img2" class="fixed-ratio-resize" src="placeholder.png" alt="2"/>
+            <h3 id='ttl2'>Title</h3>
+            <p id='auth2'>Author(s)</p>
+          </li>
+          <li>
+            <img id="img3" class="fixed-ratio-resize" src="placeholder.png" alt="3"/>
+            <h3 id='ttl3'>Title</h3>
+            <p id='auth3'>Author(s)</p>
+          </li>
+
+          <li>
+            <img id="img4"class="fixed-ratio-resize" src="placeholder.png" alt="4"/>
+            <h3 id='ttl4'>Title</h3>
+            <p id='auth4'>Author(s)</p>
+          </li>
+          <li>
+            <img id="img5" class="fixed-ratio-resize" src="placeholder.png" alt="5"/>
+            <h3 id='ttl5'>Title</h3>
+            <p id='auth5'>Author(s)</p>
+          </li>
+          <li>
+            <img id="img6" class="fixed-ratio-resize" src="placeholder.png" alt="6"/>
+            <h3 id='ttl6'>Title</h3>
+            <p id='auth6'>Author(s)</p>
+          </li>
+
+        </u1>
+
+        <script>
+        {
+
+          var Image_Browser = (function () {
+              function Image_Browser() {
+              }
+              Image_Browser.prototype.Load = function (i, comics) {
+                  for (var n = 0; n < 6; n++) {
+                      var img = "img" + n.toString();
+                      var ttl = "ttl" + n.toString();
+                      var auth = "auth" + n.toString();
+                      if (i + n >= comics.length) {
+                          document.getElementById(img).src = "";
+                          document.getElementById(ttl).innerHTML = i.toString();
+                          document.getElementById(auth).innerHTML = "";
+                      }
+                      else {
+                          document.getElementById(img).src = comics[i].panels[0];
+                          document.getElementById(ttl).innerHTML = comics[i].title;
+                          var author = "";
+                          for (var m = 0; m < comics[i].authors.length; m++) {
+                              author = author + comics[i].authors[m];
+                          }
+                          document.getElementById(auth).innerHTML = author;
+                      }
+                  }
+              };
+              return Image_Browser;
+          })();
+
+          var prev = document.getElementById('bttnprev');
+          var next = document.getElementById('bttnnext');
+          var obj = new Image_Browser;
+          var i = 0;
+          var comics = <%- Comics %>;
+
+          obj.Load(i, comics);
+          prev.onclick = function ()
+          {
+            i = i-6;
+            if(i < 0){
+              i = 0;
+            }
+            obj.Load(i, comics);
+          }
+
+          next.onclick = function ()
+          {
+            if(comics.length >= 6 && i >= comics.length){
+              i=comics.length-6;
+            }
+            i = i+6;
+            obj.Load(i, comics);
+          }
+        </script>
+
+        <br/>
+
+        <button class="prev" type=button; id="bttnprev">Previous</button>
+        <button class="next" type=button; id="bttnnexxt">Next</button>
+
+    </body>
+</html>

@@ -1,8 +1,9 @@
+http://code.tutsplus.com/tutorials/authenticating-nodejs-applications-with-passport--cms-21619
 var express = require('express');
 var router = express.Router();
 
 var isAuthenticated = function (req, res, next) {
-	// if user is authenticated in the session, call the next() to call the next request handler 
+	// if user is authenticated in the session, call the next() to call the next request handler
 	// Passport adds this method to request object. A middleware is allowed to add properties to
 	// request and response objects
 	if (req.isAuthenticated())
@@ -16,31 +17,31 @@ module.exports = function(passport){
 	/* GET login page. */
 	router.get('/', function(req, res) {
     	// Display the Login page with any flash message, if any
-		res.render('index', { message: req.flash('message') });
+		res.render('home_page', { user: req.user });
 	});
 
 	/* Handle Login POST */
 	router.post('/login', passport.authenticate('login', {
-		successRedirect: '/home',
-		failureRedirect: '/',
-		failureFlash : true  
+		successRedirect: '/',
+		failureRedirect: '/signup',
+		failureFlash : true
 	}));
 
-	/* GET Registration Page */
-	router.get('/signup', function(req, res){
-		res.render('register',{message: req.flash('message')});
+	/* GET Upload Page */
+	router.get('/upload', function(req, res){
+		res.render('upload', { user: req.user });
 	});
 
 	/* GET Registration Page */
-	router.get('/upload', function(req, res){
-		res.render('upload');
+	router.get('/signup', function(req, res){
+		res.render('register', { user: req.user });
 	});
 
 	/* Handle Registration POST */
 	router.post('/signup', passport.authenticate('signup', {
-		successRedirect: '/home',
-		failureRedirect: '/signup',
-		failureFlash : true  
+		successRedirect: '/',
+		failureRedirect: '/',
+		failureFlash : true
 	}));
 
 	/* GET Home Page */
@@ -54,10 +55,24 @@ module.exports = function(passport){
 		res.redirect('/');
 	});
 
+	router.get('/home_page', function(req,res){
+//		var db = req.db;
+//    var collection = db.get('ComicStrips');
+//		collection.find({},{},function(e,docs){
+//				res.render('home_page', {user: req.user}, {"Comics" : docs});
+//		});
+	res.render('home_page',{user:req.user})
+	});
+	/*
+	 * GET ComicStrips.
+	 */
+	router.get('/comics', function(req, res) {
+		  var db = req.db;
+			console.log(db);
+	    //db.ComicStrips.find({},{},function(e,docs){
+	    //    res.json(docs);
+	    //});
+	});
+
 	return router;
 }
-
-
-
-
-

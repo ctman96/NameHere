@@ -5,12 +5,18 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var dbConfig = require('./db');
+var dbConfig = require('./db.js');
 var mongoose = require('mongoose');
 // Connect to DB
 mongoose.connect(dbConfig.url);
+var db = mongoose.connection;
 
 var app = express();
+
+app.use(function(req,res,next){
+    req.db = db;
+    next();
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,10 +32,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Configuring Passport
 var passport = require('passport');
 var expressSession = require('express-session');
-// TODO - Why Do we need this key ?
+
 app.use(expressSession({secret: 'mySecretKey'}));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(function(req,res,next){
+    res.locals.session = req.session;
+    next();
+});
 
  // Using the flash middleware provided by connect-flash to store messages in session
  // and displaying in templates
@@ -61,5 +71,4 @@ if (app.get('env') === 'development') {
         });
     });
 }
-
 module.exports = app;
