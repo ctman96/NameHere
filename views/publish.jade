@@ -1,0 +1,34 @@
+extends layout
+
+block content
+    h1= title
+    form#formPublish(name="publish",method="post",action="/publish")
+
+        
+        input#inputtitle(type="text", placeholder="comic title", name="comicTitle")
+        br
+        input#inputauthor(type="text", placeholder="author name", name="comicAuthor")
+        br
+        input#inputimage(type="file", placeholder="image", name="comicIamge")
+        br
+        input#inputtag1(type="text", placeholder="tag1", name="tag1")
+        br		
+        input#inputtag2(type="text", placeholder="tag2", name="tag2")
+        br
+        input#inputtag3(type="text", placeholder="tag3", name="tag3")
+        br
+        input#inputtag4(type="text", placeholder="tag4", name="tag4")
+        br
+        
+        button#btnSubmit(type="submit") Publish
+
+
+
+
+
+
+
+
+
+
+        
