@@ -5,18 +5,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var mongo = require('mongodb');
 var dbConfig = require('./db.js');
 var mongoose = require('mongoose');
 // Connect to DB
 mongoose.connect(dbConfig.url);
+
 var db = mongoose.connection;
 
 var app = express();
-
-app.use(function(req,res,next){
-    req.db = db;
-    next();
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,6 +35,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req,res,next){
     res.locals.session = req.session;
+    next();
+});
+
+// Make our db accessible to our router
+app.use(function (req, res, next) {
+    req.db = db;
     next();
 });
 

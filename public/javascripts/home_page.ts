@@ -1,7 +1,7 @@
 class Image_Browser
 {
-  i:number;
-  comics:any[];
+  public i:number;
+  public comics;
   constructor() {this.i=0; this.comics=[""]}
   Load(){
     for(var n=0;n<6;n++){
@@ -11,7 +11,7 @@ class Image_Browser
       var imgEl = <HTMLImageElement>document.getElementById(img)
       var ttl:string = "ttl" + (n+1).toString();
       var auth:string = "auth" + (n+1).toString();
-      if (true)//(this.i + (n+1) >= this.comics.length)
+      if (this.i+n+1 >= this.comics.length)
       {
         linkEl.href="";
         imgEl.src="Placeholder.png";
@@ -20,14 +20,15 @@ class Image_Browser
       }
       else
       {
-        //linkEl.href="/view/" + this.comics[this.i].refId; //make a default comic page, that loads given the ref id? and pass through the refid
-        //imgEl.src=this.comics[this.i].panels[0];
-        //document.getElementById(ttl).innerHTML = this.comics[this.i].title;
+        var comic = this.comics[this.i+n+1]
+        //linkEl.href="/view/" + comic.refId; //make a default comic page, that loads given the ref id? and pass through the refid
+        imgEl.src=comic.image;
+        document.getElementById(ttl).innerHTML = comic.title;
         //var author = "";
         //for(var m=0; m<this.comics[this.i].authors.length;m++){  //if
         //  author = author + this.comics[this.i].authors[m];
         //}
-        //document.getElementById(auth).innerHTML = author;
+        document.getElementById(auth).innerHTML = comic.author;
       }
     }
   }
@@ -83,7 +84,11 @@ function Next(){
   obj.Next();
 }
 function Init(Comics){
+  if (obj){
   obj.comics = Comics;
   obj.i = 0;
   obj.Load();
+}else{
+  console.log("failed init");
+}
 }

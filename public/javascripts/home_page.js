@@ -11,13 +11,22 @@ var Image_Browser = (function () {
             var imgEl = document.getElementById(img);
             var ttl = "ttl" + (n + 1).toString();
             var auth = "auth" + (n + 1).toString();
-            if (true) {
+            if (this.i + n + 1 >= this.comics.length) {
                 linkEl.href = "";
                 imgEl.src = "Placeholder.png";
                 document.getElementById(ttl).innerHTML = (this.i + n + 1).toString();
                 document.getElementById(auth).innerHTML = "Author";
             }
             else {
+                var comic = this.comics[this.i + n + 1];
+                //linkEl.href="/view/" + comic.refId; //make a default comic page, that loads given the ref id? and pass through the refid
+                imgEl.src = comic.image;
+                document.getElementById(ttl).innerHTML = comic.title;
+                //var author = "";
+                //for(var m=0; m<this.comics[this.i].authors.length;m++){  //if
+                //  author = author + this.comics[this.i].authors[m];
+                //}
+                document.getElementById(auth).innerHTML = comic.author;
             }
         }
     };
@@ -64,7 +73,12 @@ function Next() {
     obj.Next();
 }
 function Init(Comics) {
-    obj.comics = Comics;
-    obj.i = 0;
-    obj.Load();
+    if (obj) {
+        obj.comics = Comics;
+        obj.i = 0;
+        obj.Load();
+    }
+    else {
+        console.log("failed init");
+    }
 }
