@@ -209,25 +209,22 @@ html
       br
       br
 
-    var parsedComics = [];
-    for comic in comiclist
-      parsedComics.insert(comic)
-
     script.
       var Image_Browser = (function () {
           function Image_Browser() {
               this.i = 0;
-              this.comics = [""];
+              this.comics = [];
           }
           Image_Browser.prototype.Load = function () {
               for (var n = 0; n < 6; n++) {
+                  console.log(n + " : " + this.comics);
                   var link = "link" + (n + 1).toString();
                   var linkEl = document.getElementById(link);
                   var img = "img" + (n + 1).toString();
                   var imgEl = document.getElementById(img);
                   var ttl = "ttl" + (n + 1).toString();
                   var auth = "auth" + (n + 1).toString();
-                  if (this.i + n + 1 >= this.comics.length){
+                  if (this.i + n >= this.comics.length){
                       console.log("fail" + this.comics.length);
                       console.log(this.comics)
                       linkEl.href = "";
@@ -236,17 +233,19 @@ html
                       document.getElementById(auth).innerHTML = "Author";
                   }
                   else{
-                    console.log("comic " + this.comics.length + this.comics)
-                    var c = (this.i + n + 1)
-                    var comic = this.comics.c;
+                    console.log("found comics: " + this.comics.length)
+                    var c = (this.i + n)
+                    var comic = this.comics[c];
+                    console.log("getting comic " + c + " : ");
+                    console.log(comic);
                     //linkEl.href="/view/" + comic.c.refId; //make a default comic page, that loads given the ref id? and pass through the refid
                     imgEl.src = comic.image;
-                    document.getElementById(ttl).innerHTML = comic.c.title;
+                    document.getElementById(ttl).innerHTML = comic.title;
                     //var author = "";
                     //for(var m=0; m<this.comics[this.i].authors.length;m++){  //if
                     //  author = author + this.comics[this.i].authors[m];
                     //}
-                    document.getElementById(auth).innerHTML = comic.c.author;
+                    document.getElementById(auth).innerHTML = comic.author;
                   }
               }
           };
@@ -258,11 +257,9 @@ html
               this.Load();
           };
           Image_Browser.prototype.Next = function () {
-              this.i = this.i + 6;
-              if (this.comics.length >= 6 && this.i >= this.comics.length) {
-                  this.i = this.comics.length - 6;
-              }
-              this.Load();
+              if (this.comics.length >= this.i+6)
+                this.i = this.i + 6;
+                this.Load();
           };
           return Image_Browser;
         })();
@@ -274,7 +271,6 @@ html
             obj.Next();
         }
         function Init(Comics) {
-            obj = new Image_Browser();
             console.log(Comics);
             if (obj) {
                 obj.comics= Comics;
@@ -293,7 +289,6 @@ html
         var prev = document.getElementById('bttnprev');
         var next = document.getElementById('bttnnext');
         obj = new Image_Browser();
-        obj.Load();
         cancel_login.onclick = function () {
             login_box.style.display = 'none';
         };
@@ -302,4 +297,4 @@ html
         };
         acc.onclick = function () {
         };
-        //Init(#{parsedComics});
+        Init(!{comiclist});

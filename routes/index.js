@@ -24,12 +24,12 @@ module.exports = function(passport){
 		comic_model.find(function(err, comic_data) {
 			if (err) {
 				res.send("There was a problem accessing the database.");
-				res.render('home_page', { user: req.user, comiclist: comic_data});
+				res.render('home_page',{ user: req.user, comiclist: JSON.stringify(comic_data)});
 			}
 			else {
 					// And forward to success page
 				console.log(comic_data);
-				res.render('home_page', { user: req.user, comiclist:comic_data});
+				res.render('home_page',{ user: req.user, comiclist:JSON.stringify(comic_data)});
 			}
 		});
 	});
@@ -108,7 +108,7 @@ router.post('/publish', function (req, res) {
 				else {
 						// And forward to success page
 						console.log("sucess")
-						res.redirect("/comiclist");
+						res.redirect("/");
 				}
 			});
 	});
