@@ -24,6 +24,15 @@ html
           else
             a#bttnacclogin(href='javascript:void(0);') Account
             a#bttnaccount(href='javascript:void(0);', style='display:none') Account
+        li
+          if user
+            a(href='/upload') Uploads
+        li
+          if user
+            a(href='/publish') Publish
+        li
+          if user
+            a(href='/signout') Log Out
         // Add links here!
         ul(style='float:right; padding: 15px 15px;')
           li
