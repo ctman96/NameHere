@@ -180,38 +180,38 @@ html
         a(href='/signup') Create an account
     h1.title(allign='center') Collaborative Comics
 
-
+    -var placeholder = "http://res.cloudinary.com/namehere/image/upload/v1456772897/placeholder_sgsh4n.png"
     a#bttnprev.prev(title="Previous", href="javascript:void(0);", onclick="Prev(0); return false;") Previous
     a#bttnnexxt.next(title="Next", href="javascript:void(0);", onclick="Next(0); return false;") Next
     ul.image_grid.columns-3
       li
         a#link1(href='')
-          img#img1.fixed-ratio-resize(src='placeholder.png', alt='1')
+          img#img1.fixed-ratio-resize(src=placeholder, alt='1')
         h3#ttl1 Title
         p#auth1 Author(s)
       li
         a#link2(href='')
-          img#img2.fixed-ratio-resize(src='placeholder.png', alt='2')
+          img#img2.fixed-ratio-resize(src=placeholder, alt='2')
         h3#ttl2 Title
         p#auth2 Author(s)
       li
         a#link3(href='')
-          img#img3.fixed-ratio-resize(src='placeholder.png', alt='3')
+          img#img3.fixed-ratio-resize(src=placeholder, alt='3')
         h3#ttl3 Title
         p#auth3 Author(s)
       li
         a#link4(href='')
-          img#img4.fixed-ratio-resize(src='placeholder.png', alt='4')
+          img#img4.fixed-ratio-resize(src=placeholder, alt='4')
         h3#ttl4 Title
         p#auth4 Author(s)
       li
         a#link5(href='')
-          img#img5.fixed-ratio-resize(src='placeholder.png', alt='5')
+          img#img5.fixed-ratio-resize(src=placeholder, alt='5')
         h3#ttl5 Title
         p#auth5 Author(s)
       li
         a#link6(href='')
-          img#img6.fixed-ratio-resize(src='placeholder.png', alt='6')
+          img#img6.fixed-ratio-resize(src=placeholder, alt='6')
         h3#ttl6 Title
         p#auth6 Author(s)
 
@@ -237,7 +237,7 @@ html
                       console.log("fail" + this.comics.length);
                       console.log(this.comics)
                       linkEl.href = "";
-                      imgEl.src = "Placeholder.png";
+                      imgEl.src = "http://res.cloudinary.com/namehere/image/upload/v1456772897/placeholder_sgsh4n.png";
                       document.getElementById(ttl).innerHTML = (this.i + n + 1).toString();
                       document.getElementById(auth).innerHTML = "Author";
                   }

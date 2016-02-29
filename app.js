@@ -5,6 +5,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var cloudinary = require('cloudinary');
+
+cloudinary.config({
+  cloud_name: 'namehere',
+  api_key: '783437419356992',
+  api_secret: 'CvG35tk6ty9c3jU4cpCQHgMv1g0'
+});
+
 var mongo = require('mongodb');
 var dbConfig = require('./db.js');
 var mongoose = require('mongoose');
