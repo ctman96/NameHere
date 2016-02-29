@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 module.exports = mongoose.model('comicStrip',{
   title: String,
   author:String,
-  panels:[{String}],
+  panels:[String],
   width: Number,
   height: Number,
   tags:[String],
@@ -13,5 +13,4 @@ module.exports = mongoose.model('comicStrip',{
   tag2:String,
   tag3:String,
   tag4:String,
-  refID:Number
 });

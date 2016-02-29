@@ -105,12 +105,15 @@ router.post('/publish', function (req, res) {
 		var comic = new comic_model({
 				"title": comicTitle,
 				"author": comicAuthor,
+				"panels":[],
+				"width": 0,
+				"height": 0,
 				"image": comicImage,
+				"tags":[],
 				"tag1": comicTag1,
 				"tag2": comicTag2,
-				"tg3": comicTag3,
+				"tag3": comicTag3,
 				"tag4": comicTag4,
-				"refID": 0
 			})
 			console.log("saving comic " + comic)
 			comic.save(function (err, doc) {

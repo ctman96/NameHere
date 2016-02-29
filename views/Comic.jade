@@ -126,25 +126,28 @@ html
     - var size = w*h
     - var i = 0;
     - var n = 0;
+    - var index = 0;
     - var title = comic.title
     - console.log('title: ' + title)
     - var author = comic.author
     - console.log('author: ' + author)
 
-    h1
-      comic.title
-
     ul#Comic
-      li= comic.title
+      li#title
+        h1= comic.title
       li
-          if w && h
-            ul
-              while i < height
-                li
-                  while n < width
-                    img(src= "/" + comic.panels[i*w+n], alt="placeholder" + (i*w+n))
-          else
-            img(src= "/" + comic.image, alt="plaeholder")
+        if comic.panels
+          each panel, p in comic.panels
+            img(src = panel)
+      //  if w && h
+      //    ul
+      //      while i < height
+      //        li
+      //          while n < width
+      //            img(src= comic.panels[index], alt="placeholder" + (index))
+      //            index = index + 1
+        else
+          img(src= "/" + comic.image, alt="placeholder")
       li= "Author: " + comic.author
       //each tag, i in comic.tags
       //  p
