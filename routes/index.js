@@ -69,6 +69,21 @@ module.exports = function(passport){
 			res.render('Publish',{user:req.user});
 	});
 
+	router.get('/comic/:comicId', function(req, res){
+		var comicId = req.params.comicId;
+		console.log(comicId);
+		comic_model.findOne( {'_id' : comicId}, function(err, comic_data) {
+			if (err) {
+				res.send("There was a problem accessing the database.");
+				res.redirect('/');
+			}
+			else {
+					// And forward to success page
+				console.log(comic_data);
+				res.render('Comic', {user:req.user, comic:comic_data});
+			}})
+		});
+
 	/* Posting to publish service          @ 2/10/2016*/
 router.post('/publish', function (req, res) {
 		// Get our form values.

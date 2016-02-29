@@ -247,7 +247,6 @@ html
                     var comic = this.comics[c];
                     console.log("getting comic " + c + " : ");
                     console.log(comic);
-                    //linkEl.href="/view/" + comic.c.refId; //make a default comic page, that loads given the ref id? and pass through the refid
                     imgEl.src = comic.image;
                     document.getElementById(ttl).innerHTML = comic.title;
                     //var author = "";
@@ -255,6 +254,7 @@ html
                     //  author = author + this.comics[this.i].authors[m];
                     //}
                     document.getElementById(auth).innerHTML = comic.author;
+                    linkEl.href="/comic/" + comic._id; //make a default comic page, that loads given the ref id? and pass through the refid
                   }
               }
           };
