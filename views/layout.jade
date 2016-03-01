@@ -7,6 +7,7 @@ html
   head
     block title
       title Default title
+    link(rel='icon', href="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Comic_Books.png/120px-Comic_Books.png")
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src="/javascripts/Login_Box.js")
 
@@ -34,8 +35,8 @@ html
         // Add links here!
         ul(style='float:right; padding: 15px 15px;')
           li
-            form(action='/search', accept-charset='utf-8', method='POST')
-              input(type='search', placeholder='Search')
+            form(action='/search', accept-charset='utf-8', method='GET')
+              input(type='search', name='q', placeholder='Search')
               input(type='submit', value='Search')
 
 

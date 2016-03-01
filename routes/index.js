@@ -34,19 +34,16 @@ module.exports = function(passport){
 		});
 	});
 
-	router.post('/search', function(req, res) {
+	router.get('/search', function(req, res) {
+		console.log("beginning search for " + req.query.q)
 		db.collection('comicstrips').find({
-			"$text": {
-				"$search": req.body.query
+			"$tags": {
+				"$search": req.query.q
 			}
 		}, {
 			title: 1,
 			author: 1,
-			panels: 1,
-			width: 1,
-			height: 1,
 			tags: 1,
-			_id: 1,
 			textScore: {
 				$meta: "score"
 			}
@@ -133,11 +130,11 @@ router.post('/publish', function (req, res) {
 		var comic = new comic_model({
 				"title": comicTitle,
 				"author": comicAuthor,
-				"panels":[],
-				"width": 0,
-				"height": 0,
+				"panels":[comicImage],
+				"width": 1,
+				"height": 1,
 				"image": comicImage,
-				"tags":[],
+				"tags":[comicTitle, comicAuthor, comicTag1, comicTag2, comicTag3, comicTag4],
 				"tag1": comicTag1,
 				"tag2": comicTag2,
 				"tag3": comicTag3,
