@@ -3,4 +3,8 @@ block title
   title Search
 
 block content
-  
+  link(rel='stylesheet', href='/stylesheets/search.css')
+  div#results
+    ul
+      each result, r in results
+        li= result
