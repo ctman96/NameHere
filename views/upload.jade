@@ -36,7 +36,9 @@ html
         // Add links here!
         ul(style='float:right; padding: 15px 15px;')
           li
-            input(type='search', value='Search')
+            form(action='/search', accept-charset='utf-8', method='POST')
+              input(type='search', placeholder='Search')
+              input(type='submit', value='Search')
 
 
     #login_box

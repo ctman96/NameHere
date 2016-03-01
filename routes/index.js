@@ -34,6 +34,34 @@ module.exports = function(passport){
 		});
 	});
 
+	router.post('/search', function(req, res) {
+		db.collection('comicstrips').find({
+			"$text": {
+				"$search": req.body.query
+			}
+		}, {
+			title: 1,
+			author: 1,
+			panels: 1,
+			width: 1,
+			height: 1,
+			tags: 1,
+			_id: 1,
+			textScore: {
+				$meta: "score"
+			}
+		}, {
+			sort: {
+				textScore: {
+					$meta: "score"
+				}
+			}
+		}).toArray(function(err, results) {
+			console.log(results);
+			res.render('search', {user: req.user, results: results})
+		})
+	})
+
 	/* Handle Login POST */
 	router.post('/login', passport.authenticate('login', {
 		successRedirect: '/',

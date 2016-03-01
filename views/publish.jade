@@ -1,138 +1,25 @@
-doctype html
+extends layout
 
-html
-  head
-    title Home
-    style.
-      body{
-      background-color: grey;
-      }
-      #banner {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      right: 0px;
-      width: 100%;
-      height: 200px;
-      z-index: -1;
-      }
-      #navbar {
-      position: absolute;
-      top: 200px;
-      left: 0px;
-      right: 0px;
-      width: 100%;
-      z-index: -1;
-      }
-      #navbar ul{
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #333;
-      }
-      #navbar li{
-      float: left;
-      border-right:1px solid #bbb;
-      }
-      #navbar li:last-child{
-      border-right: none;
-      }
-      #navbar li a{
-      display:block;
-      color:white;
-      text-align: center;
-      padding: 15px 15px;
-      text-decoration: none;
-      }
-      #navbar li a:hover{
-      background-color:#111;
-      }
+block title
+  title Publish
 
-      #login_box {
-      width:300px;
-      height:100px;
-      position:absolute;
-      top:25%;
-      left:25%;
-      margin:-50px 0 0 -150px; /* [-(height/2)px 0 0 -(width/2)px] */
-      padding: 10px;
-      display:none;
-      z-index: 100;
-      background-color: lightgrey
-      }
-
-      #publish {
-      width:400px;
-      height:100px;
-      position:absolute;
-      top:150px;
-      left:50%;
-      margin:-50px 0 0 -150px; /* [-(height/2)px 0 0 -(width/2)px] */
-      padding: 10px;
-      z-index: 100;
-      }
-
-    body
-      script(src="/javascripts/Login_Box.js")
-
-      img#banner(src='header.jpg', alt='Header Image')
-      #navbar
-        ul
-          li
-            a(href='/') Home
-          li
-            if user.username
-              a#bttnacclogin(href='javascript:void(0);', style='display:none') Account
-              a#bttnaccount(href='javascript:void(0);') #{user.username}
-            else
-              a#bttnacclogin(href='javascript:void(0);') Account
-              a#bttnaccount(href='javascript:void(0);', style='display:none') Account
-          li
-            if user
-              a(href='/upload') Uploads
-          li
-            if user
-              a(href='/publish') Publish
-          li
-              if user
-                a(href='/signout') Log Out
-          // Add links here!
-          ul(style='float:right; padding: 15px 15px;')
-            li
-              input(type='search', value='Search')
-
-
-        #login_box
-          form(action='/login', accept-charset='utf-8', method='POST')
-            fieldset
-              legend Login:
-              |               Username:
-              input(type='text', name='username', placeholder='Username',required, autofocus)
-              br
-              |               Password:
-              input(type='password', name='password', placeholder='Password', required)
-              br
-              input#bttnlogin(type='submit', value='Log In')
-              input#bttncancel_login(type='button', value='Cancel')
-            a(href='/signup') Create an account
-
-        #publish
-          block content
-            h1= "Publish Your Comic Strips"
-            form#formPublish(name="publish",method="post",action="/publish")
-              input#inputtitle(type="text", placeholder="comic title", name="title", required)
-              br
-              input#inputauthor(type="text", placeholder="Author", value=user.username, name="author", required)
-              br
-              input#inputimage(type="file", placeholder="image", name="image", required)
-              br
-              input#inputtag1(type="text", placeholder="tag1", name="tag1")
-              br
-              input#inputtag2(type="text", placeholder="tag2", name="tag2")
-              br
-              input#inputtag3(type="text", placeholder="tag3", name="tag3")
-              br
-              input#inputtag4(type="text", placeholder="tag4", name="tag4")
-              br
-              input#btnSubmit(type='submit', value='Publish')
+block content
+  link(rel='stylesheet', href='/stylesheets/publish.css')
+  div#publish
+    h1= "Publish Your Comic Strips"
+    form#formPublish(name="publish",method="post",action="/publish")
+      input#inputtitle(type="text", placeholder="comic title", name="title", required)
+      br
+      input#inputauthor(type="text", placeholder="Author", value=user.username, name="author", required)
+      br
+      input#inputimage(type="file", placeholder="image", name="image", required)
+      br
+      input#inputtag1(type="text", placeholder="tag1", name="tag1")
+      br
+      input#inputtag2(type="text", placeholder="tag2", name="tag2")
+      br
+      input#inputtag3(type="text", placeholder="tag3", name="tag3")
+      br
+      input#inputtag4(type="text", placeholder="tag4", name="tag4")
+      br
+      input#btnSubmit(type='submit', value='Publish')

@@ -1,154 +1,41 @@
-doctype html
-//
-  http://www.dynamicdrive.com/forums/entry.php?293-3-Ways-to-Resize-Scale-Web-Images-in-Responsive-Design
-  http://alijafarian.com/responsive-image-grids-using-css/
-  !
-html
-  head
-    title Home
-    style.
-      body{
-      background-color: grey;
-      }
-      #banner {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      right: 0px;
-      width: 100%;
-      height: 200px;
-      z-index: -1;
-      }
-      #navbar {
-      position: absolute;
-      top: 200px;
-      left: 0px;
-      right: 0px;
-      width: 100%;
-      z-index: -1;
-      }
-      #navbar ul{
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #333;
-      }
-      #navbar li{
-      float: left;
-      border-right:1px solid #bbb;
-      }
-      #navbar li:last-child{
-      border-right: none;
-      }
-      #navbar li a{
-      display:block;
-      color:white;
-      text-align: center;
-      padding: 15px 15px;
-      text-decoration: none;
-      }
-      #navbar li a:hover{
-      background-color:#111;
-      }
+extends layout
+block title
+  title Comic
 
-      #login_box {
-      width:300px;
-      height:100px;
-      position:absolute;
-      top:25%;
-      left:25%;
-      margin:-50px 0 0 -150px; /* [-(height/2)px 0 0 -(width/2)px] */
-      padding: 10px;
-      display:none;
-      z-index: 100;
-      background-color: lightgrey
-      }
-      #Comic{
-      position:absolute;
-      top:30%;
-      left:40%;
-      }
-      #text{
-      position:relative;
-      left:50%;
-      }
-  body
-    script(src="/javascripts/Login_Box.js")
+block content
+  link(rel='stylesheet', href='/stylesheets/Comic.css')
+  - console.log(comic)
+  - console.log(comic._id)
+  - var w = comic.width
+  - console.log('w: ' + w)
+  - var h = comic.height
+  - console.log('h: ' + h)
+  - var size = w*h
+  - var i = 0;
+  - var n = 0;
+  - var index = 0;
+  - var title = comic.title
+  - console.log('title: ' + title)
+  - var author = comic.author
+  - console.log('author: ' + author)
 
-    img#banner(src='/header.jpg', alt='Header Image')
-    #navbar
-      ul
-        li
-          a(href='/') Home
-        li
-          if user
-            a#bttnacclogin(href='javascript:void(0);', style='display:none') Account
-            a#bttnaccount(href='javascript:void(0);') #{user.username}
-          else
-            a#bttnacclogin(href='javascript:void(0);') Account
-            a#bttnaccount(href='javascript:void(0);', style='display:none') Account
-        li
-          if user
-            a(href='/upload') Uploads
-        li
-          if user
-            a(href='/publish') Publish
-          li
-            if user
-              a(href='/signout') Log Out
-        // Add links here!
-        ul(style='float:right; padding: 15px 15px;')
-          li
-            input(type='search', value='Search')
-
-
-    #login_box
-      form(action='/login', accept-charset='utf-8', method='POST')
-        fieldset
-          legend Login:
-          |               Username:
-          input(type='text', name='username', placeholder='Username',required, autofocus)
-          br
-          |               Password:
-          input(type='password', name='password', placeholder='Password', required)
-          br
-          input#bttnlogin(type='submit', value='Log In')
-          input#bttncancel_login(type='button', value='Cancel')
-        a(href='/signup') Create an account
-
-    - console.log(comic)
-    - console.log(comic._id)
-    - var w = comic.width
-    - console.log('w: ' + w)
-    - var h = comic.height
-    - console.log('h: ' + h)
-    - var size = w*h
-    - var i = 0;
-    - var n = 0;
-    - var index = 0;
-    - var title = comic.title
-    - console.log('title: ' + title)
-    - var author = comic.author
-    - console.log('author: ' + author)
-
-    ul#Comic
-      li#title
-        h1= comic.title
-      li
-        if comic.panels
-          each panel, p in comic.panels
-            img(src = panel)
-      //  if w && h
-      //    ul
-      //      while i < height
-      //        li
-      //          while n < width
-      //            img(src= comic.panels[index], alt="placeholder" + (index))
-      //            index = index + 1
-        else
-          img(src= "/" + comic.image, alt="placeholder")
-      li= "Author: " + comic.author
-      //each tag, i in comic.tags
-      //  p
-      //    li = tag
+  ul#Comic
+    li#title
+      h1= comic.title
+    li
+      if comic.panels
+        each panel, p in comic.panels
+          img(src = panel)
+    //  if w && h
+    //    ul
+    //      while i < height
+    //        li
+    //          while n < width
+    //            img(src= comic.panels[index], alt="placeholder" + (index))
+    //            index = index + 1
+      else
+        img(src= "/" + comic.image, alt="placeholder")
+    li= "Author: " + comic.author
+    //each tag, i in comic.tags
+    //  p
+    //    li = tag
