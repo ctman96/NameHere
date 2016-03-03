@@ -6,6 +6,17 @@ block content
   link(rel='stylesheet', href='/stylesheets/search.css')
   div#results
     p= results
-//    ul
-//      each result, r in results
-//        li= result
+    ul
+      each comic, c in searchResults
+        ul
+          li
+            if comic.image
+              img(src=comic.image,  height="100")
+            else if comic.panels
+              console.log(console.panels)
+              a(href="/comic/"+comic._id)
+                img(src=comic.panels[0], height="100")
+            p
+              b Title: #{comic.title}
+            p Author: #{comic.author}
+        br

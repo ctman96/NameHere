@@ -37,25 +37,28 @@ module.exports = function(passport){
 	router.get('/search', function(req, res) {
 		console.log("beginning search for " + req.query.q)
 		db.collection('comicstrips').find({
-			"$tags": {
+			"$text": {
 				"$search": req.query.q
 			}
 		}, {
 			title: 1,
 			author: 1,
 			tags: 1,
+			panels: 1,
+			image:1,
+			_id:1,
 			textScore: {
-				$meta: "score"
+				$meta: "textScore"
 			}
 		}, {
 			sort: {
 				textScore: {
-					$meta: "score"
+					$meta: "textScore"
 				}
 			}
 		}).toArray(function(err, results) {
 			console.log(results);
-			res.render('search', {user: req.user, results: results})
+			res.render('search', {user: req.user, searchResults: results})
 		})
 	})
 
@@ -67,7 +70,7 @@ module.exports = function(passport){
 	}));
 
 	/* GET Upload Page */
-	router.get('/upload', function(req, res){
+	router.get('/upload', isAuthenticated, function(req, res){
 		res.render('upload', { user: req.user });
 	});
 
