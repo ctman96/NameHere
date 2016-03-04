@@ -1,5 +1,32 @@
 #results{
-  position:absolute;
-  top:30%;
-  left:40%;
+  position: relative;
+  margin-top:300px;
+  margin-left: 0px;
+  margin-right: 0px;
+  width:100%
+  text-align:left;
+}
+#result div {
+  margin-top:10px;
+  display:inline-block;
+  margin-left: 10px;
+  margin-right: 40px;
+}
+#text{
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+#result {
+  position: relative;
+  margin-top:10px;
+  margin-left: 0px;
+  margin-right: 30px;
+  text-align:center;
+  background-color: grey;
+  border-style: double;
+  text-align:left;
+}
+#link{
+  color:#000;
 }

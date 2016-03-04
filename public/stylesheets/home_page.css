@@ -1,10 +1,20 @@
-.title{
+.titles{
 position: absolute;
 left: 50%;
 margin-right: -50%;
 transform: translate(-50%,-50%);
 top: 285px;
 z-index: -1;
+}
+#home-wrapper{
+  position: relative;
+  margin-top:300px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align:center;
+  height:auto/0.7;
+  background-color: grey;
+  border-style: double;
 }
 .fixed-ratio-resize { /* basic responsive img */
 max-width: 25%;
@@ -15,9 +25,9 @@ ul.image_grid {
 list-style: none;
 font-size: 0px;
 margin-left: -2.5%; /* should match li left margin */
-position:absolute;
-top: 400px;
-left: -40px;
+position:relative;
+top: 10px;
+left: -20px;
 }
 ul.image_grid li {
 display: inline-block;
@@ -50,17 +60,19 @@ ul.image_grid.columns-3 li {
 width: 30.83%; /* this value + 2.5 should = 33% */
 }
 .prev {
-position: absolute;
-left: 20px;
-top: 340px;
+position: relative;
+align-self: left;
+left: -40%;
+top: -0px;
 overflow:hidden
 float: left;
 color: black;
 }
 .next {
-position: absolute;
-right: 20px;
-top: 340px;
+position: relative;
+align-self: right;
+right: -40%;
+top: 0px;
 overflow:hidden
 float: right;
 color: black;

@@ -1,9 +1,12 @@
-#Comic{
-position:absolute;
-top:30%;
-left:40%;
+#comicwrapper{
+  position: relative;
+  margin-top:300px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align:center;
+  background-color: grey;
+  border-style: double;
 }
-#text{
-position:relative;
-left:50%;
+#comic{
+list-style: none;
 }

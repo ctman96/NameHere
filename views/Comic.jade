@@ -1,6 +1,6 @@
 extends layout
 block title
-  title Comic
+  title #{comic.title}
 
 block content
   link(rel='stylesheet', href='/stylesheets/Comic.css')
@@ -19,23 +19,24 @@ block content
   - var author = comic.author
   - console.log('author: ' + author)
 
-  ul#Comic
-    li#title
-      h1= comic.title
-    li
-      if comic.panels
-        each panel, p in comic.panels
-          img(src = panel)
-    //  if w && h
-    //    ul
-    //      while i < height
-    //        li
-    //          while n < width
-    //            img(src= comic.panels[index], alt="placeholder" + (index))
-    //            index = index + 1
-      else
-        img(src= comic.image, alt="placeholder")
-    li= "Author: " + comic.author
-    //each tag, i in comic.tags
-    //  p
-    //    li = tag
+  div#comicwrapper
+    ul#comic
+      li
+        h1 #{comic.title}
+      li
+        if comic.panels
+          each panel, p in comic.panels
+            img(src = panel)
+      //  if w && h
+      //    ul
+      //      while i < height
+      //        li
+      //          while n < width
+      //            img(src= comic.panels[index], alt="placeholder" + (index))
+      //            index = index + 1
+        else
+          img(src= comic.image, alt="placeholder")
+      li
+        p
+          b Author: #{ comic.author}
+        br

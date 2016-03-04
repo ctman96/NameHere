@@ -8,15 +8,17 @@ block content
     p= results
     ul
       each comic, c in searchResults
-        ul
-          li
-            if comic.image
-              img(src=comic.image,  height="100")
-            else if comic.panels
-              console.log(console.panels)
-              a(href="/comic/"+comic._id)
-                img(src=comic.panels[0], height="100")
-            p
-              b Title: #{comic.title}
-            p Author: #{comic.author}
-        br
+        a(href='/comic/'+comic._id)#link
+          div#result
+            div
+              if comic.image
+                img(src=comic.image,  height="100")
+              else if comic.panels
+                console.log(console.panels)
+                a(href="/comic/"+comic._id)
+                  img(src=comic.panels[0], height="100")
+            div#text
+              p
+                b Title: #{comic.title}
+              p Author: #{comic.author}
+      br
