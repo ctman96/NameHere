@@ -10,7 +10,7 @@ block content
     form#formPublish(name="publish",method="post",action="/publish")
       input#inputtitle(type="text", placeholder="comic title", name="title", required)
       br
-      input#inputauthor(type="text", placeholder="Author", value=user.username, name="author", required)
+      input#inputauthor(type="text", placeholder="Author", value=user.username, name="author", required).disabled
       br
       input#inputimage(type="file", placeholder="image", name="image", required)
       br

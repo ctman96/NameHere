@@ -126,6 +126,7 @@ router.post('/publish', function (req, res) {
 		var comicTag3 = req.body.tag3;
 		var comicTag4 = req.body.tag4;
 
+
 	//    var user = new Comic(comicTitle, comicAuthor, comicIamge, comicTag1, comicTag2, comicTag3, comicTag4);
 		// Set our collection
 		// Submit to the DB

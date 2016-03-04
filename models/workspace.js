@@ -8,5 +8,6 @@ module.exports = mongoose.model('workspace',{
   panels:[{String}],
   width: Number,
   height: Number,
-  tags:[String]
+  tags:[String],
+  comic:[{String}]
 });
