@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= title
+
+  - if (images && images.length)
+
+    - images.forEach(function(image){
+      a(href=image.url)
+        img(src=cloudinary.url(image.public_id + '.' + image.format, { width: 200, height: 200, crop: 'fit', version: image.version }))
+    - })
+
+block scripts
+
