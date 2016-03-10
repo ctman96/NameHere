@@ -1,17 +1,15 @@
 var express = require('express');
+var routes = require('./routes');
+var http = require('http');
+var cloudinary = require('cloudinary');
+var fs = require('fs');
+var crypto = require('crypto');
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var cloudinary = require('cloudinary');
-
-cloudinary.config({
-  cloud_name: 'namehere',
-  api_key: '783437419356992',
-  api_secret: 'CvG35tk6ty9c3jU4cpCQHgMv1g0'
-});
 
 var mongo = require('mongodb');
 var dbConfig = require('./db.js');
@@ -82,4 +80,18 @@ if (app.get('env') === 'development') {
         });
     });
 }
+
+cloudinary.config({
+  cloud_name: 'namehere',
+  api_key: '783437419356992',
+  api_secret: 'CvG35tk6ty9c3jU4cpCQHgMv1g0'
+});
+
+app.locals.api_key = cloudinary.config().api_key;
+app.locals.cloud_name = cloudinary.config().cloud_name;
+
+http.createServer(app).listen(app.get('port'), function(){
+  console.log('Express server listening on port', app.get('port'));
+});
+
 module.exports = app;

@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var db = mongoose.connection;
+var cloudinary = require('cloudinary');
 var comic = require('../models/comicStrip');
 var comic_model = mongoose.model('comicStrip');
 var comicCount = comic_model.count();
@@ -70,7 +71,7 @@ module.exports = function(passport){
 	}));
 
 	/* GET Upload Page */
-	router.get('/upload', isAuthenticated, function(req, res){
+	router.get('/oldupload', isAuthenticated, function(req, res){
 		res.render('upload', { user: req.user });
 	});
 
@@ -174,6 +175,28 @@ router.post('/publish', function (req, res) {
 				}
 			});
 		});
+
+
+		/* Upload/publish */
+		router.get('/upload', isAuthenticated, function(req, res, next){
+		  cloudinary.api.resources(function(items){
+		    res.render('newupload', { images: items.resources, title: 'Upload your comic strips here!', cloudinary: cloudinary });
+		  });
+		});
+
+		router.post('/upload', function(req, res){
+		  var imageStream = fs.createReadStream(req.files.image.path, { encoding: 'binary' })
+		    , cloudStream = cloudinary.uploader.upload_stream(function() { res.redirect('/workspace'); });
+
+		  imageStream.on('data', cloudStream.write).on('end', cloudStream.end);
+		});
+
+		router.get('/workspace', isAuthenticated, function(req, res, next){
+		  cloudinary.api.resources(function(items){
+		    res.render('workspace', { images: items.resources, title: 'Rearrange your uploaded panels to create a new comic strip!', cloudinary: cloudinary });
+		  });
+		});
+
 
 	return router;
 }
