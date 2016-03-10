@@ -40,3 +40,7 @@ block content
         p
           b Author: #{ comic.author}
         br
+      li
+        //add the panels to the workspace 
+        a#copy(href='/copy/'+comic._id)
+          img(src="http://fastosphere.meteor.com/clippy.svg" height="30")
