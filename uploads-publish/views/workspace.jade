@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  head
+  h1= title
+    style.
+      #div1 {width:1200px;height:440px;padding:10px;border:1px solid #aaaaaa;}
+    script.
+      function allowDrop(ev) {
+      ev.preventDefault();
+      }
+      function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+      }
+      function drop(ev) {
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("text");
+      if ( event.target.nodeName !== "IMG" ) {
+      event.target.appendChild(document.getElementById(data));
+      }
+      }
+  body
+    p Drag your comic panels into the box:
+    #div1(ondrop='drop(event)', ondragover='allowDrop(event)')
+    br
+  - if (images && images.length)
+    - each image, index in images
+      - var i = index
+      a(href=image.url)
+        img(id = i, src=cloudinary.url(image.public_id + '.' + image.format, { width: 200, height: 200, crop: 'fill', version: image.version }), draggable='true', ondragstart='drag(event)')
+    script(src='public/snap.js')

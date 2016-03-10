@@ -42,17 +42,17 @@ app.get('/', function(req, res, next){
   });
 });
 
-app.get('/publish', function(req, res, next){
-  cloudinary.api.resources(function(items){
-    res.render('publish', { images: items.resources, title: 'Your uploaded comic strips', cloudinary: cloudinary });
-  });
-});
-
 app.post('/upload', function(req, res){
   var imageStream = fs.createReadStream(req.files.image.path, { encoding: 'binary' })
-    , cloudStream = cloudinary.uploader.upload_stream(function() { res.redirect('/publish'); });
+    , cloudStream = cloudinary.uploader.upload_stream(function() { res.redirect('/workspace'); });
 
   imageStream.on('data', cloudStream.write).on('end', cloudStream.end);
+});
+
+app.get('/workspace', function(req, res, next){
+  cloudinary.api.resources(function(items){
+    res.render('workspace', { images: items.resources, title: 'Rearrange your uploaded panels to create a new comic strip!', cloudinary: cloudinary });
+  });
 });
 
 http.createServer(app).listen(app.get('port'), function(){
