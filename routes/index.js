@@ -4,9 +4,11 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var db = mongoose.connection;
 var cloudinary = require('cloudinary');
+var fs = require('fs');
 var comic = require('../models/comicStrip');
 var comic_model = mongoose.model('comicStrip');
 var comicCount = comic_model.count();
+var bodyParser = require('body-parser');
 
 var isAuthenticated = function (req, res, next) {
 	// if user is authenticated in the session, call the next() to call the next request handler
