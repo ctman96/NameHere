@@ -58,16 +58,13 @@ block content
           b Author: #{ comic.author}
         br
 
-   
-  
+
+
   body
-    p Drag the comic panel you like into the rectangle:
-    #div1(ondrop='drop(event)', ondragover='allowDrop(event)')
-    br
-    
-
-
-  h1(id="title") Select the panel you like
-    button(class="btn", data-action="bea").
-      Add to the workspace
-
+    if user
+      p Drag the comic panel you like into the rectangle:
+      #div1(ondrop='drop(event)', ondragover='allowDrop(event)')
+      br
+      h1(id="title") Select the panel you like
+        button(class="btn", data-action="bea").
+          Add to the workspace
