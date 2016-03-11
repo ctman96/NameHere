@@ -180,7 +180,7 @@ router.post('/publish', function (req, res) {
 		/* Upload/publish */
 		router.get('/upload', isAuthenticated, function(req, res, next){
 		  cloudinary.api.resources(function(items){
-		    res.render('newupload', { images: items.resources, title: 'Upload your comic strips here!', cloudinary: cloudinary });
+		    res.render('newupload', {user:req.user, images: items.resources, title: 'Upload your comic strips here!', cloudinary: cloudinary });
 		  });
 		});
 
@@ -193,7 +193,7 @@ router.post('/publish', function (req, res) {
 
 		router.get('/workspace', isAuthenticated, function(req, res, next){
 		  cloudinary.api.resources(function(items){
-		    res.render('workspace', { images: items.resources, title: 'Rearrange your uploaded panels to create a new comic strip!', cloudinary: cloudinary });
+		    res.render('workspace', {user:req.user, images: items.resources, title: 'Rearrange your uploaded panels to create a new comic strip!', cloudinary: cloudinary });
 		  });
 		});
 
