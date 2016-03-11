@@ -3,6 +3,23 @@ block title
   title #{comic.title}
 
 block content
+
+  head
+    style.
+      #div1 {width:750px;height:220px;padding:10px;border:1px solid #aaaaaa;}
+    script.
+      function allowDrop(ev) {
+      ev.preventDefault();
+      }
+      function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+      }
+      function drop(ev) {
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("text");
+      ev.target.appendChild(document.getElementById(data));
+      }
+
   link(rel='stylesheet', href='/stylesheets/Comic.css')
   - console.log(comic)
   - console.log(comic._id)
@@ -26,7 +43,7 @@ block content
       li
         if comic.panels
           each panel, p in comic.panels
-            img(src = panel)
+            img#drag1(src = panel, draggable='true', ondragstart='drag(event)')
       //  if w && h
       //    ul
       //      while i < height
@@ -35,12 +52,22 @@ block content
       //            img(src= comic.panels[index], alt="placeholder" + (index))
       //            index = index + 1
         else
-          img(src= comic.image, alt="placeholder")
+          img(src= comic.image, alt="placeholder", draggable='true', ondragstart='drag(event)')
       li
         p
           b Author: #{ comic.author}
         br
-      li
-        //add the panels to the workspace 
-        a#copy(href='/copy/'+comic._id)
-          img(src="http://fastosphere.meteor.com/clippy.svg" height="30")
+
+   
+  
+  body
+    p Drag the comic panel you like into the rectangle:
+    #div1(ondrop='drop(event)', ondragover='allowDrop(event)')
+    br
+    
+
+
+  h1(id="title") Select the panel you like
+    button(class="btn", data-action="bea").
+      Add to the workspace
+
