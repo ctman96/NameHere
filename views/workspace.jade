@@ -39,7 +39,7 @@ block content
     - if (images && images.length)
       - each image, index in images
         - var i = index
-        a(href=image.url)
+        a(href='/workspace/' + i + '/delete')
           img.img(id = i, src=cloudinary.url(image.public_id + '.' + image.format, { width: 200, height: 200, crop: 'fill', version: image.version }), draggable='true', ondragstart='drag(event)')
       script(src='public/snap.js')
       br
