@@ -43,8 +43,7 @@ block content
           img.img(id = i, src=cloudinary.url(image.public_id + '.' + image.format, { width: 200, height: 200, crop: 'fill', version: image.version }), draggable='true', ondragstart='drag(event)')
       script(src='public/snap.js')
       br
-      input(type="checkbox", name="privacy", id="uneditable",checked='checked')
-      p#text Check if you want other users to be able to cut panels from your comic
+      input(type="checkbox", name="privacy", id="uneditable",checked='checked')#text Check if you want other users to be able to cut panels from your comic
       br
       input#inputtag1(type="text", placeholder="tag1", name="tag1")
       br
