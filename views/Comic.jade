@@ -61,7 +61,7 @@ block content
 
 
   body
-    if user
+    if user && comic.privacy
       p Drag the comic panel you like into the rectangle:
       #div1(ondrop='drop(event)', ondragover='allowDrop(event)')
       br

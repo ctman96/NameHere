@@ -124,6 +124,7 @@ router.post('/publish', function (req, res) {
 		console.log(comicAuthor);
 		var comicImage = req.body.image;
 		console.log(comicImage);
+		var editable = req.body.privacy;
 		var comicTag1 = req.body.tag1;
 		var comicTag2 = req.body.tag2;
 		var comicTag3 = req.body.tag3;
@@ -140,6 +141,7 @@ router.post('/publish', function (req, res) {
 				"panels":[comicImage],
 				"width": 1,
 				"height": 1,
+				"privacy": editable,
 				"image": comicImage,
 				"tags":[comicTitle, comicAuthor, comicTag1, comicTag2, comicTag3, comicTag4],
 				"tag1": comicTag1,

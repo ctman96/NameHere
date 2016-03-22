@@ -7,6 +7,7 @@ module.exports = mongoose.model('comicStrip',{
   panels:[String],
   width: Number,
   height: Number,
+  privacy: Boolean,
   tags:[String],
   image:String,
   tag1:String,
