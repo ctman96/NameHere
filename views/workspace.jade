@@ -43,6 +43,8 @@ block content
           img.img(id = i, src=cloudinary.url(image.public_id + '.' + image.format, { width: 200, height: 200, crop: 'fill', version: image.version }), draggable='true', ondragstart='drag(event)')
       script(src='public/snap.js')
       br
+      input(type="checkbox", name="privacy", id="uneditable",checked='checked')
+      br
       input#inputtag1(type="text", placeholder="tag1", name="tag1")
       br
       input#inputtag2(type="text", placeholder="tag2", name="tag2")
