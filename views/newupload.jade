@@ -8,20 +8,16 @@ block content
       #title {position:relative; margin-top:300px;}
       #upload {position:relative; margin-top:10px;}
 
+
   h1#title= title
+  div#upload
+    form(method="POST",action="/upload", enctype="multipart/form-data")
+      //select
+        //each workspace, w in workspaces
+          //option(value=w._id) w.title
+      input#i_file(type="file", name="image" required)
+      button#i_submit(type="submit") Upload Image
 
-  form#upload(action="/upload", method="post", enctype="multipart/form-data")
-    input(type="file", name="image")
-    input(type="submit", value="Upload Image")
-  br
-  br
-  br
-  - if (images && images.length)
-
-    - images.forEach(function(image){
-      a(href=image.url)
-        img(src=cloudinary.url(image.public_id + '.' + image.format, { width: 200, height: 200, crop: 'fill', version: image.version }))
-    - })
 
 block scripts
   script(type="text/javascript")

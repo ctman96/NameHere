@@ -6,8 +6,7 @@ module.exports = mongoose.model('workspace',{
   author:[String],
   images:[String],
   panels:[String],
-  width: Number,
-  height: Number,
+  length:Number,
   uploaders:[String],
   tags:[String],
   comic:[String]

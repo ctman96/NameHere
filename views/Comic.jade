@@ -23,10 +23,7 @@ block content
   link(rel='stylesheet', href='/stylesheets/Comic.css')
   - console.log(comic)
   - console.log(comic._id)
-  - var w = comic.width
-  - console.log('w: ' + w)
-  - var h = comic.height
-  - console.log('h: ' + h)
+  - var length = comic.length
   - var size = w*h
   - var i = 0;
   - var n = 0;
@@ -44,13 +41,6 @@ block content
         if comic.panels
           each panel, p in comic.panels
             img#drag1(src = panel, draggable='true', ondragstart='drag(event)')
-      //  if w && h
-      //    ul
-      //      while i < height
-      //        li
-      //          while n < width
-      //            img(src= comic.panels[index], alt="placeholder" + (index))
-      //            index = index + 1
         else
           img(src= comic.image, alt="placeholder", draggable='true', ondragstart='drag(event)')
       li

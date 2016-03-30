@@ -9,46 +9,86 @@ block content
       #text {position:relative;margin-top:10px;;}
       #div1 {width:1200px;height:440px;padding:10px;border:1px solid #aaaaaa;margin-top:10px;;position:relative;}
       .img {position:relative;margin-top:10px;;}
-    script.
-      function allowDrop(ev) {
-      ev.preventDefault();
+      ul#panels {
+      list-style: none;
+      margin: 0px;
       }
-      function drag(ev) {
-      ev.dataTransfer.setData("text", ev.target.id);
+      ul#panels li{
+      display: inline-block;
+      padding: 5px;
       }
-      function drop(ev) {
-      ev.preventDefault();
-      var data = ev.dataTransfer.getData("text");
-      var formFiles = document.getElementById(files);
-      if ( event.target.nodeName !== "IMG" ) {
-      event.target.appendChild(document.getElementById(data));
+      .deleteMe{
+          float: right;
+          background: dark-grey;
       }
-      }
+
   body
     h1#title= title
     p#text Drag your comic panels into the box:
     form#formPublish(name="publish",method="post",action="/publish")
       input#inputtitle(type="text", placeholder="comic title", name="title", required)
-      br
-      input#inputauthor(type="text", placeholder="Author", value=user.username, name="author", required).disabled
-      br
-      input#files(type="hidden" multiple)
-      #div1(ondrop='drop(event)', ondragover='allowDrop(event)')
-      //input#inputimage(type="file", placeholder="image", name="image", required)
-      br
-    - if (images && images.length)
-      - each image, index in images
-        - var i = index
-        a(href='/workspace/' + i + '/delete')
-          img.img(id = i, src=cloudinary.url(image.public_id + '.' + image.format, { width: 200, height: 200, crop: 'fill', version: image.version }), draggable='true', ondragstart='drag(event)')
-      script(src='public/snap.js')
-      br
+      
       input#inputtag1(type="text", placeholder="tag1", name="tag1")
-      br
       input#inputtag2(type="text", placeholder="tag2", name="tag2")
       br
+      input#inputauthor(type="text", placeholder="Author", value=user.username, name="author", required, disabled)
+
       input#inputtag3(type="text", placeholder="tag3", name="tag3")
-      br
       input#inputtag4(type="text", placeholder="tag4", name="tag4")
+
+      p Private:
+        input#privacy(type="checkbox", name="privcy", value="privacy", required)
+
+      -var length = 5;
+      input#length(type="text", disabled, value = length, size="3")
+      input#inc(type="button", value='+', onclick='addItem()')
+      input#dec(type="button", value="-")
+      br
+
+      - var n = 0
+      ul#panels
+        while n < length
+          //input#inputimage(type="file", placeholder="image", name="image", required)
+          li
+            img(src="http://portfoliotheme.org/enigmatic/wp-content/uploads/sites/9/2012/07/placeholder1.jpg", height="100", ondrop='drop(event)', ondragover='allowDrop(event)')
+            div(class="deleteMe") X
+          -n++
+
       br
       input#btnSubmit(type='submit', value='Publish')
+
+    div#images(style="overflow-y:scroll; height:400px;")
+      //each image, i in workspace.images
+        //img(src=i)
+
+    script.
+      $(document).ready(function(){
+          $(".deleteMe").on("click", function(){
+           $(this).closest("li").remove();
+      });
+      var increase = document.getElementById('inc');
+      var decrease = document.getElementById('dec');
+      var list = document.getElementById('panels');
+
+      increase.onclick = function () {
+      };
+
+      decrease.onclick = function () {
+        if (document.getElementById("length").value > 1)
+          document.getElementById("length").value--;
+      };
+
+      function addItem(){
+        document.getElementById("length").value++;
+        var li = document.createElement("LI");
+        var img = document.createElement("img");
+        img.src = "http://portfoliotheme.org/enigmatic/wp-content/uploads/sites/9/2012/07/placeholder1.jpg"
+        var xdiv = document.createElement("div");
+        xdiv.class = "deleteMe";
+        xdiv.innerHTML = "X";
+
+        li.appendChild(img);
+        li.appendChild(xdiv);
+
+        document.getElemendById("panels").appendChild(li)
+      }

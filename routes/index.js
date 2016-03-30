@@ -9,6 +9,8 @@ var comic = require('../models/comicStrip');
 var comic_model = mongoose.model('comicStrip');
 var comicCount = comic_model.count();
 var bodyParser = require('body-parser');
+var multer  = require('multer')
+var upload = multer({ dest: './tmp/' })
 
 var isAuthenticated = function (req, res, next) {
 	// if user is authenticated in the session, call the next() to call the next request handler
@@ -124,6 +126,7 @@ router.post('/publish', function (req, res) {
 		console.log(comicAuthor);
 		var comicImage = req.body.image;
 		console.log(comicImage);
+		var editable = req.body.privacy;
 		var comicTag1 = req.body.tag1;
 		var comicTag2 = req.body.tag2;
 		var comicTag3 = req.body.tag3;
@@ -138,8 +141,8 @@ router.post('/publish', function (req, res) {
 				"title": comicTitle,
 				"author": comicAuthor,
 				"panels":[comicImage],
-				"width": 1,
-				"height": 1,
+				"privacy":editable,
+				"length":1,
 				"image": comicImage,
 				"tags":[comicTitle, comicAuthor, comicTag1, comicTag2, comicTag3, comicTag4],
 				"tag1": comicTag1,
@@ -186,17 +189,19 @@ router.post('/publish', function (req, res) {
 		  });
 		});
 
-		router.post('/upload', function(req, res){
-		  var imageStream = fs.createReadStream(req.files.image.path, { encoding: 'binary' })
-		    , cloudStream = cloudinary.uploader.upload_stream(function() { res.redirect('/workspace'); });
-
-		  imageStream.on('data', cloudStream.write).on('end', cloudStream.end);
+		router.post('/upload', upload.single('image'), function(req, res){
+			console.log(req.file);
+			var comicImage = req.file.path;
+			console.log(comicImage);
+			cloudinary.uploader.upload(comicImage, function(result) {
+			  console.log(result)
+				//add it to the workspace
+				res.redirect('/workspace')
+			});
 		});
 
 		router.get('/workspace', isAuthenticated, function(req, res, next){
-		  cloudinary.api.resources(function(items){
-		    res.render('workspace', {user:req.user, images: items.resources, title: 'Rearrange your uploaded panels to create a new comic strip!', cloudinary: cloudinary });
-		  });
+		  res.render('workspace', {user:req.user, title: 'Rearrange your uploaded panels to create a new comic strip!'});
 		});
 
 

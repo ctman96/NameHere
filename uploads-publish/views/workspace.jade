@@ -1,10 +1,14 @@
-extends layout
+extends layout1
 
+block title
+  title Workspace
 block content
   head
-  h1= title
     style.
-      #div1 {width:1200px;height:440px;padding:10px;border:1px solid #aaaaaa;}
+      #title {position:relative;margin-top:300px;;}
+      #text {position:relative;margin-top:10px;;}
+      #div1 {width:1200px;height:440px;padding:10px;border:1px solid #aaaaaa;margin-top:10px;;position:relative;}
+      .img {position:relative;margin-top:10px;;}
     script.
       function allowDrop(ev) {
       ev.preventDefault();
@@ -15,17 +19,33 @@ block content
       function drop(ev) {
       ev.preventDefault();
       var data = ev.dataTransfer.getData("text");
+      var formFiles = document.getElementById(files);
       if ( event.target.nodeName !== "IMG" ) {
       event.target.appendChild(document.getElementById(data));
       }
       }
   body
-    p Drag your comic panels into the box:
-    #div1(ondrop='drop(event)', ondragover='allowDrop(event)')
-    br
-  - if (images && images.length)
-    - each image, index in images
-      - var i = index
-      a(href=image.url)
-        img(id = i, src=cloudinary.url(image.public_id + '.' + image.format, { width: 200, height: 200, crop: 'fill', version: image.version }), draggable='true', ondragstart='drag(event)')
-    script(src='public/snap.js')
+    h1#title= title
+    p#text Drag your comic panels into the box:
+    form#formPublish(name="publish",method="post",action="/publish")
+      input#inputtitle(type="text", placeholder="comic title", name="title", required)
+      br
+      input#inputauthor(type="text", placeholder="Author", value=user.username, name="author", required)
+      br
+      input#privacy(type="checkbox", name="privcy", value="privacy", required)
+      br
+      input#files(type="hidden" multiple)
+      #div1(ondrop='drop(event)', ondragover='allowDrop(event)')
+      input#inputimage(type="file", placeholder="image", name="image", required)
+      br
+      script(src='public/snap.js')
+      br
+      input#inputtag1(type="text", placeholder="tag1", name="tag1")
+      br
+      input#inputtag2(type="text", placeholder="tag2", name="tag2")
+      br
+      input#inputtag3(type="text", placeholder="tag3", name="tag3")
+      br
+      input#inputtag4(type="text", placeholder="tag4", name="tag4")
+      br
+      input#btnSubmit(type='submit', value='Publish')

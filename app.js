@@ -1,4 +1,5 @@
 var express = require('express');
+var multer = require('multer');
 var routes = require('./routes');
 var http = require('http');
 var cloudinary = require('cloudinary');
@@ -43,6 +44,8 @@ app.use(function(req,res,next){
     res.locals.session = req.session;
     next();
 });
+
+
 
 // Make our db accessible to our router
 app.use(function (req, res, next) {
