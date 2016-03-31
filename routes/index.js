@@ -7,6 +7,8 @@ var cloudinary = require('cloudinary');
 var fs = require('fs');
 var comic = require('../models/comicStrip');
 var comic_model = mongoose.model('comicStrip');
+var workspace = require('../models/workspace');
+var workspace_model = mongoose.model('workspace');
 var comicCount = comic_model.count();
 var bodyParser = require('body-parser');
 var multer  = require('multer')
@@ -200,8 +202,19 @@ router.post('/publish', function (req, res) {
 			});
 		});
 
-		router.get('/workspace', isAuthenticated, function(req, res, next){
-		  res.render('workspace', {user:req.user, title: 'Rearrange your uploaded panels to create a new comic strip!'});
+		router.get('/workspace:workspaceId', isAuthenticated, function(req, res, next){
+			var workspaceId = req.params.workspaceId;
+			console.log(workspaceId);
+			workspace_model.findOne( {'_id' : workspaceId}, function(err, workspace_data) {
+				if (err) {
+					res.send("There was a problem accessing the database.");
+					res.redirect('/');
+				}
+				else {
+						// And forward to success page
+					console.log(workspace_data);
+					res.render('workspace', {user:req.user, workspace:workspace_data, title: 'Rearrange your uploaded panels to create a new comic strip!'}});
+			})
 		});
 
 

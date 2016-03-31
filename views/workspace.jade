@@ -26,13 +26,14 @@ block content
     h1#title= title
     p#text Drag your comic panels into the box:
     form#formPublish(name="publish",method="post",action="/publish")
+      |               Title:
       input#inputtitle(type="text", placeholder="comic title", name="title", required)
-
+      |               Author:
+      input#inputauthor(type="text", placeholder="Author", value=user.username, name="author", required, disabled)
+      br
+      |               Tags:
       input#inputtag1(type="text", placeholder="tag1", name="tag1")
       input#inputtag2(type="text", placeholder="tag2", name="tag2")
-      br
-      input#inputauthor(type="text", placeholder="Author", value=user.username, name="author", required, disabled)
-
       input#inputtag3(type="text", placeholder="tag3", name="tag3")
       input#inputtag4(type="text", placeholder="tag4", name="tag4")
 
@@ -103,6 +104,11 @@ block content
       li.appendChild(xdiv);
 
       document.getElementById("panels").appendChild(li);
+      $(".droppable").droppable({
+        drop: function(event, ui) {
+          $(this).attr("src", ui.draggable.attr("src"));
+        }
+      });
     };
 
     function remItem(){
