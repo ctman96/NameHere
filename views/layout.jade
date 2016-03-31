@@ -26,9 +26,13 @@ html
         li
           if user
             a(href='/upload') Uploads
-        li
+        li.dropdown
           if user
-            a(href='/workspace') Workpace
+            a.dropbtn(href='#') Workspace
+            .dropdown-content
+              a(href='#') Link 1
+              a(href='#') Link 2
+              a(href='#') Link 3
         li
           if user
             a(href='/signout') Log Out
