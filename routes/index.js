@@ -5,6 +5,8 @@ var mongoose = require('mongoose');
 var db = mongoose.connection;
 var cloudinary = require('cloudinary');
 var fs = require('fs');
+var user = require('../models/user');
+var user_model = mongoose.model('User');
 var comic = require('../models/comicStrip');
 var comic_model = mongoose.model('comicStrip');
 var workspace = require('../models/workspace');
@@ -23,6 +25,7 @@ var isAuthenticated = function (req, res, next) {
 	// if the user is not authenticated then redirect him to the login page
 	res.redirect('/');
 }
+
 
 module.exports = function(passport){
 
@@ -120,7 +123,7 @@ module.exports = function(passport){
 		});
 
 	/* Posting to publish service          @ 2/10/2016*/
-router.post('/publish', function (req, res) {
+router.post('/publish', isAuthenticated, function (req, res) {
 		// Get our form values.
 		var comicTitle = req.body.title;
 		console.log(comicTitle);
@@ -216,6 +219,46 @@ router.post('/publish', function (req, res) {
 					res.render('workspace', {user:req.user, workspace:workspace_data, title: 'Rearrange your uploaded panels to create a new comic strip!'});
 			}})
 		});
+
+		router.get('/newWorkspace', isAuthenticated, function(req, res, next){
+			var newWorkspace = new workspace;
+			newWorkspace.author = req.user.username;
+			newWorkspace.save(function(err) {
+				if (err){
+						console.log('Error in creating workspace: '+err);
+						throw err;
+				}
+				console.log('Workspace creation succesful, ID = '+newWorkspace._id);
+				var newworkspaces = req.user.workspaces;
+				console.log(req.user.workspaces);
+				newworkspaces.push(newWorkspace._id);
+				console.log(newworkspaces);
+				/*user_model.update(
+					{_id: req.user._id},
+					{$set:{workspaces: newworkspaces}})
+				req.user.workspaces = newworkspaces;*/
+				console.log(req.user._id)
+				user_model.findOne({'_id': req.user._id}, function (err, doc){
+					doc.workspaces = newworkspaces;
+					doc.save();
+				})
+				res.redirect('/workspace/'+newWorkspace._id)
+			});
+		});
+	router.get('/delWorkspace/:workspaceId', isAuthenticated, function(req,res,next){
+		console.log('deleting '+ req.params.workspaceId)
+		workspace_model.remove( { '_id' : req.params.workspaceId }, function (err) {
+		 	if (err) console.log(err);
+		});
+		user_model.findOne({'_id': req.user._id}, function (err, doc){
+			var workspaces = req.user.workspaces;
+			var index = workspaces.indexOf(req.params.workspaceId.toString());
+			workspaces.splice(index, 1);
+			doc.workspaces = workspaces;
+			doc.save();
+		})
+		res.redirect('/')
+	})
 
 
 	return router;

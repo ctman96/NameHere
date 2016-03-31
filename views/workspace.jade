@@ -46,6 +46,7 @@ block content
     h1#title= title
     p#text Drag your comic panels into the box:
     form#formPublish(name="publish",method="post",action="/publish")
+      input#id(type="text", name="id", value=workspace._id, hidden)
       |               Title:
       input#inputtitle(type="text", placeholder="comic title", name="title", required, value=workspace.title)
       |               Author:
@@ -86,12 +87,13 @@ block content
       br
       br
       form#formPublish(name="publish",method="post",action="/publish")
-      |               Add Contributor:
-      input#addauthor(type="text", placeholder="username")
-      button#bttnAddAuth(type='button', value='Save', onclick='')  Add
+        |               Add Contributor:
+        input#addauthor(type="text", placeholder="username")
+        button#bttnAddAuth(type='button', value='add', onclick='')  Add
       br
       br
-      //button#delete(type='button', value='Leave', onclick='') Leave Workspace
+      a(href='/delWorkspace/'+workspace._id)
+        button#delete(type='button', value='Leave') Delete Workspace
 
 
     br
