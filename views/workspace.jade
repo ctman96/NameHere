@@ -86,14 +86,17 @@ block content
       input#btnSubmit(type='submit', value='Publish')
       br
       br
-      form#formPublish(name="publish",method="post",action="/publish")
-        |               Add Contributor:
-        input#addauthor(type="text", placeholder="username")
-        button#bttnAddAuth(type='button', value='add', onclick='')  Add
-      br
-      br
-      a(href='/delWorkspace/'+workspace._id)
-        button#delete(type='button', value='Leave') Delete Workspace
+    form#formAdd(name="addUser",method="post",action="/addContributor")
+      input#wsid(type='text', name='adduserID', hidden)
+      |               Add Contributor:
+      select(name='friends', required)
+        each friend, f in user.friends
+          option(value='friend') #{friend}
+      input#bttnAddAuth(type='submit', value='add')
+    br
+    br
+    a(href='/delWorkspace/'+workspace._id)
+      button#delete(type='button', value='Leave') Delete Workspace
 
 
     br

@@ -220,6 +220,22 @@ router.post('/publish', isAuthenticated, function (req, res) {
 			}})
 		});
 
+		router.post('/addContributor', isAuthenticated, function(req,res, next){
+			var username;
+			user_model.findOne({'username': req.body.friends}, function (err, doc){
+				var newworkspaces = doc.workspaces;
+				newworkspaces.push(req.body.adduserID);
+				username = doc.username;
+				doc.workspaces = newworkspaces;
+				doc.save();
+			})
+			workspace_model.findOne({'_id': req.user._id}, function (err, doc){
+				var newauthors = doc.author;
+				newauthors.push(username);
+				doc.save();
+			})
+		});
+
 		router.get('/newWorkspace', isAuthenticated, function(req, res, next){
 			var newWorkspace = new workspace;
 			newWorkspace.author = req.user.username;
@@ -245,6 +261,7 @@ router.post('/publish', isAuthenticated, function (req, res) {
 				res.redirect('/workspace/'+newWorkspace._id)
 			});
 		});
+
 	router.get('/delWorkspace/:workspaceId', isAuthenticated, function(req,res,next){
 		console.log('deleting '+ req.params.workspaceId)
 		workspace_model.remove( { '_id' : req.params.workspaceId }, function (err) {
