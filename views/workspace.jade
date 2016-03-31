@@ -17,6 +17,22 @@ block content
       display: inline-block;
       padding: 5px;
       }
+      ul#wspanels {
+      list-style: none;
+      margin: 0px;
+      }
+      ul#wspanels li{
+      display: inline-block;
+      padding: 5px;
+      }
+      ul#wsimages {
+      list-style: none;
+      margin: 0px;
+      }
+      ul#wsimages li{
+      display: inline-block;
+      padding: 5px;
+      }
       .deleteMe{
           float: right;
           background: dark-grey;
@@ -27,9 +43,9 @@ block content
     p#text Drag your comic panels into the box:
     form#formPublish(name="publish",method="post",action="/publish")
       |               Title:
-      input#inputtitle(type="text", placeholder="comic title", name="title", required)
+      input#inputtitle(type="text", placeholder="comic title", name="title", required, value=workspace.title)
       |               Author:
-      input#inputauthor(type="text", placeholder="Author", value=user.username, name="author", required, disabled)
+      input#inputauthor(type="text", placeholder="Author", value=workspace.author, name="author", required, disabled)
       br
       |               Tags:
       input#inputtag1(type="text", placeholder="tag1", name="tag1")
@@ -38,9 +54,9 @@ block content
       input#inputtag4(type="text", placeholder="tag4", name="tag4")
 
       p Private:
-        input#privacy(type="checkbox", name="privcy", value="privacy", required)
+        input#privacy(type="checkbox", name="privacy", value=workspace.privacy, required)
 
-      -var length = 1;
+      -var length = workspace.length;
       input#length(type="text", disabled, value = length, size="3")
       input#inc(type="button", value='+', onclick='addItem()')
       input#dec(type="button", value="-", onclick='remItem()')
@@ -49,23 +65,36 @@ block content
       - var n = 0
       ul#panels
         while n < length
+          each panel, p in workspace.comic
+            li
+              img(src=panel, height="100", class="droppable")
+              div(class="deleteMe") X
+            -n++
           li
             img(src="http://portfoliotheme.org/enigmatic/wp-content/uploads/sites/9/2012/07/placeholder1.jpg", height="100", class="droppable")
             div(class="deleteMe") X
           -n++
 
       br
+      button#save(type='button', value='Save', onclick='') //Todo
       input#btnSubmit(type='submit', value='Publish')
+      button#delete(type='button', value='Save', onclick='') //Todo
+
 
     br
     br
-    div#images(style="overflow-y:scroll; height:400px;")
-      img(src="http://40.media.tumblr.com/tumblr_m0zjyud8Nx1qz4aeko1_250.png", class="draggable", height="100")
-      img(src="https://650centplague.files.wordpress.com/2014/01/garfield2010-06-19.jpg", class="draggable", height="100")
-      img(src="http://www.mezzacotta.net/garfield/comics/1617.png", class="draggable", height="100")
-      img(src="http://joshreads.com/images/13/01/i130112heathcliff.jpg", class="draggable", height="100")
-      //each image, i in workspace.images
-        //img(src=i)
+    div(style="overflow-y:scroll; height:400px;")
+      ul#wsimages
+        each image, i in workspace.images
+          li
+            img(src=image, class="draggable", height="100")
+            div(class="deleteMe") X
+    div(style="overflow-y:scroll; height:400px;")
+      ul#wspanels
+        each panel, p in workspace.panels
+          li
+            img(src=panel, class="draggable", height="100")
+            div(class="deleteMe") X
 
   script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js')
   script(src="//code.jquery.com/ui/1.11.2/jquery-ui.js")

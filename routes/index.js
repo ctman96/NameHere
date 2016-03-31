@@ -202,7 +202,7 @@ router.post('/publish', function (req, res) {
 			});
 		});
 
-		router.get('/workspace:workspaceId', isAuthenticated, function(req, res, next){
+		router.get('/workspace/:workspaceId', isAuthenticated, function(req, res, next){
 			var workspaceId = req.params.workspaceId;
 			console.log(workspaceId);
 			workspace_model.findOne( {'_id' : workspaceId}, function(err, workspace_data) {
@@ -213,8 +213,8 @@ router.post('/publish', function (req, res) {
 				else {
 						// And forward to success page
 					console.log(workspace_data);
-					res.render('workspace', {user:req.user, workspace:workspace_data, title: 'Rearrange your uploaded panels to create a new comic strip!'}});
-			})
+					res.render('workspace', {user:req.user, workspace:workspace_data, title: 'Rearrange your uploaded panels to create a new comic strip!'});
+			}})
 		});
 
 
