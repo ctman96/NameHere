@@ -299,20 +299,19 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		res.redirect('/')
 	})
 
-		// router.get('/profile/:profileId', isAuthenticated, function(req,res, next) {
-		// 	var userId = req.params.userId;
-		// 	console.log(userId);
-		// 	user_model.findOne( {'_id' : req.user.userId}, function(err, user_data) {
-		// 		if (err) {
-		// 			res.send("There was a problem accessing the database.");
-		// 			res.redirect('/');
-		// 		}
-		// 		else {
-		// 			console.log(user_data);
-		// 			res.render('profile', {user:req.user, profile:profile_data, cloudinary: cloudinary});
-		// 		}
-		// 	})
-		//  });
+		router.get('/profile/:username', isAuthenticated, function(req,res, next) {
+		 	var userId = req.params.username;
+		 	console.log(userId);
+		 	user_model.findOne( {'username' : userId}, function(err, profile_data) {
+		 		if (err) {
+		 			res.send("There was a problem accessing the database.");
+		 			res.redirect('/');
+		 		}
+		 		else {
+		 			res.render('profile', {user:req.user, profile:profile_data, cloudinary: cloudinary});
+		 		}
+		 	})
+		});
 		router.get('/profile', isAuthenticated, function(req,res, next) {
 			console.log(req.user.profilepic);
 					res.render('profile', {user:req.user, profilepic:req.user.profilepic, cloudinary: cloudinary});

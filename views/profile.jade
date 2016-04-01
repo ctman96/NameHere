@@ -11,19 +11,22 @@ block content
     h1#title= title
 
     ul
-        
-        if (user.username)
-          img(src="#{user.profilepic}")
-          h2#text Username: #{user.username}
-          h3#text Friends: #{user.friends}
-          h3#text Favorites: #{user.favourites}
+
+        if (profile.username)
+          img(src="#{profile.profilepic}", height="200")
+          h2#text Username: #{profile.username}
+          h3#text Friends: #{profile.friends}
+          h3#text Favorites: #{profile.favourites}
           h3#text About Me:
           br
-          form(action='/editprofile', accept-charset='utf-8', method='POST')
-            input(type='button', value = 'Edit Profile', onclick="window.location = 'editprofile';") 
-          
+        if user
+          if (user.username == profile.username)
+            form(action='/editprofile', accept-charset='utf-8', method='POST')
+              input(type='button', value = 'Edit Profile', onclick="window.location = 'editprofile';")
+          if (user.username != profile.username)
+              input(type='button', value = 'Add Friend')
+
 
 
 
 block scripts
-
