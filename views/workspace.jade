@@ -1,47 +1,9 @@
-extends layout1
+extends layout
 
 block title
   title Workspace
 block content
-  head
-    style.
-      #title {position:relative;margin-top:300px;;}
-      #text {position:relative;margin-top:10px;;}
-      #div1 {width:1200px;height:440px;padding:10px;border:1px solid #aaaaaa;margin-top:10px;;position:relative;}
-      .img {position:relative;margin-top:10px;;}
-      ul#panels {
-      list-style: none;
-      margin: 0px;
-      }
-      ul#panels li{
-      display: inline-block;
-      padding: 5px;
-      }
-      ul#wspanels {
-      list-style: none;
-      margin: 0px;
-      }
-      ul#wspanels li{
-      display: inline-block;
-      padding: 5px;
-      }
-      ul#wsimages {
-      list-style: none;
-      margin: 0px;
-      }
-      ul#wsimages li{
-      display: inline-block;
-      padding: 5px;
-      }
-      .deleteMe{
-          float: right;
-          background: dark-grey;
-      }
-      .deleteMeAlt{
-          float: right;
-          background: dark-grey;
-      }
-
+  link(rel='stylesheet', href='/stylesheets/workspace.css')
   body
     h1#title= title
     p#text Drag your comic panels into the box:
