@@ -124,7 +124,6 @@ block content
   script(src="//code.jquery.com/ui/1.11.2/jquery-ui.js")
   script.
     $(document).ready(function(){
-      $('input[name=length]').val($('#_length').val());
       $(".deleteMe").on("click", function(){
         $(this).closest("li").find('img').attr('src', "http://portfoliotheme.org/enigmatic/wp-content/uploads/sites/9/2012/07/placeholder1.jpg");
       });
@@ -146,6 +145,7 @@ block content
 
     function addItem(){
       document.getElementById("length").value++;
+      document.getElementById("_length").value++;
       var n = document.getElementById("length").value;
       console.log(n);
 
@@ -177,10 +177,6 @@ block content
         }
       });
       $(".deleteMe").on("click", function(){
-        //if (document.getElementById("length").value > 1){
-          //document.getElementById("length").value--;
-          //$(this).closest("li").remove();
-        //}
         $(this).closest("li").find('img').attr('src', "http://portfoliotheme.org/enigmatic/wp-content/uploads/sites/9/2012/07/placeholder1.jpg");
       });
     };
@@ -188,6 +184,7 @@ block content
     function remItem(){
       if (document.getElementById("length").value > 1){
         document.getElementById("length").value--;
+        document.getElementById("_length").value--;
         $('#panels li:last').remove();
       }
     };

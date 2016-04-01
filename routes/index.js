@@ -102,11 +102,6 @@ module.exports = function(passport){
 		res.redirect('/');
 	});
 
-	/* Get publish page*/
-	router.get('/Publish', isAuthenticated, function(req, res) {
-			res.render('Publish',{user:req.user});
-	});
-
 	router.get('/comic/:comicId', function(req, res){
 		var comicId = req.params.comicId;
 		console.log(comicId);
@@ -131,7 +126,8 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		var comicAuthor = req.body.author;
 		console.log(comicAuthor);
 		var comicPanels = req.body.panels;
-		console.log(comicImage);
+		console.log(comicPanels);
+		var comicLength = req.body.truelength;
 		var editable = req.body.privacy;
 		var comicTag1 = req.body.tag1;
 		var comicTag2 = req.body.tag2;
@@ -146,10 +142,10 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		var comic = new comic_model({
 				"title": comicTitle,
 				"author": comicAuthor,
-				"panels":[comicImage],
+				"panels":comicPanels,
 				"privacy":editable,
-				"length":1,
-				"image": comicImage,
+				"length":comicLength,
+				"image": comicPanels[0],
 				"tags":[comicTitle, comicAuthor, comicTag1, comicTag2, comicTag3, comicTag4],
 				"tag1": comicTag1,
 				"tag2": comicTag2,

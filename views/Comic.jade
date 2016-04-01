@@ -40,9 +40,9 @@ block content
       li
         if comic.panels
           each panel, p in comic.panels
-            img#drag1(src = panel, draggable='true', ondragstart='drag(event)')
+            img#drag1(src = panel, height="200", draggable='true', ondragstart='drag(event)')
         else
-          img(src= comic.image, alt="placeholder", draggable='true', ondragstart='drag(event)')
+          img(src= comic.image, alt="placeholder", height="200", draggable='true', ondragstart='drag(event)')
       li
         p
           b Author: #{ comic.author}
