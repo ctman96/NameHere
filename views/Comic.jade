@@ -50,9 +50,7 @@ block content
             img#drag1(src = panel, height="200")
         else
           img(src= comic.image, alt="placeholder", height="200")
-      li
-        p
-          b link(rel='Author: ' +  comic.author,href='/profile/' + comc.author)
+      a#comicAuthor(href='/profile/'+comic.author) #{ comic.author}
         br
 
 
@@ -83,12 +81,6 @@ block content
       /*<!--*/ if(!window.hcb_user){hcb_user={  };} (function(){s=document.createElement("script");s.setAttribute("type","text/javascript");s.setAttribute("src", "http://www.htmlcommentbox.com/jread?page="+escape((window.hcb_user && hcb_user.PAGE)||(""+window.location)).replace("+","%2B")+"&opts=470&num=10");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/
     // end htmlcommentbox.com
 
-
-
-
-      br
-      br
-      br
   body
     form
       input(type='button', value='Add To Favorites', onclick='window.external.AddFavorite(location.href, document.title);')
