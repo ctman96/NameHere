@@ -12,23 +12,23 @@ block content
 	h1#title= title
 
 	ul
-		
+
 		if (user.username)
 			img(src="#{user.profilepic}")
 			form#upload(action="/editprofile", method="post", enctype="multipart/form-data")
-			input(type="file", name="image")
-			input(type="submit", value="Upload Image")
+				input(type="file", name="image")
+				input(type="submit", value="Upload Image")
 			h2#text Username: #{user.username}
 			h3#text Friends: #{user.friends}
 			h3#text Favorites: #{user.favourites}
 			br
 			h2#text About Me:
-			h3#text Birthday: 
+			h3#text Birthday:
 				input#inputtag2(type="text", placeholder="Birthday", name="Birthday")
 			h3#text Country:
 				input#inputtag2(type="text", placeholder="Country", name="Country")
 			form(action='/profile', accept-charset='utf-8', method='POST')
-				input(type='button', value = 'Save & Submit', onclick="window.location = 'profile';") 
+				input(type='button', value = 'Save & Submit', onclick="window.location = 'profile';")
 
 block content
 

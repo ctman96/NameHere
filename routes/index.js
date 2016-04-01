@@ -338,14 +338,13 @@ router.post('/publish', isAuthenticated, function (req, res) {
 			  //console.log(result);
 				console.log("UU: "+req.user);
 				results = result;
+				console.log("RR : " + results.url);
 				//console.log(results);
 				user_model.update(
 					{username : req.user.username},
-					{$set: {profilepic: results.url}},
+					{$set: {profilepic: result.url}},
 					{safe: false, upsert: false},
 					function(err, model){
-						console.log("RR : " + results.url);
-
 						res.redirect('/profile');
 				})
 
