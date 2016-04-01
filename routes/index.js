@@ -374,6 +374,24 @@ router.post('/publish', isAuthenticated, function (req, res) {
 			})
 		})
 
+
+		router.post('/editprofile', isAuthenticated, function(req, res){
+			var birthday = req.body.birthday;
+			//console.log("ID: "+profilepic);
+			  //console.log(result);
+				console.log("UU: "+req.user);
+				//console.log(results);
+				user_model.update(
+					{username : req.user.username},
+					{$set: {birthday: birthday}},
+					{safe: false, upsert: false},
+					function(err, model){
+						res.redirect('/profile');
+				})
+
+			});
+		});
+
 		// router.post('/profile', upload.single('profilepic'), function(req, res, next) {
 		// 	var profilepic = req.file;
 		// 	cloudinary.uploader.upload(profilepic, {public_id: "profilepic"},
