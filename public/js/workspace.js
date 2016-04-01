@@ -28,6 +28,24 @@ function addItem(){
   li.appendChild(xdiv);
 
   document.getElementById("panels").appendChild(li);
+  $(document).ready(function(){
+    $(".deleteMe").on("click", function(){
+      $(this).closest("li").find('img').attr('src', "http://portfoliotheme.org/enigmatic/wp-content/uploads/sites/9/2012/07/placeholder1.jpg");
+    });
+    $(".deleteMeAlt").on("click", function(){
+      $(this).closest("li").remove();
+    });
+  });
+  $(".draggable").draggable({
+    helper: "clone",
+    revert: "invalid"
+  });
+  $(".droppable").droppable({
+    drop: function(event, ui) {
+      $(this).attr("src", ui.draggable.attr("src"));
+      $(this).closest("li").find('input').attr('value', ui.draggable.attr("src"));
+    }
+  });
 }
 function remItem(){
   if (document.getElementById("length").value > 1){
