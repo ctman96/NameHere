@@ -124,7 +124,7 @@ module.exports = function(passport){
 		workspace_model.update(
 			req.body.workspace,
 			{$push: {panels: {$each: req.body.panels}}},
-			{safe: true, upsert: false},
+			{safe: false, upsert: false},
 			function(err, model){
 				console.log(err);
 				res.redirect('/workspace/'+req.body.workspace);
@@ -199,28 +199,25 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		});
 
 
-		/* Upload/publish */
+		/* Upload*/
 		router.get('/upload', isAuthenticated, function(req, res, next){
-		  cloudinary.api.resources(function(items){
-		    res.render('newupload', {user:req.user, images: items.resources, title: 'Upload your comic strips here!', cloudinary: cloudinary });
-		  });
+		  res.render('newupload', {user:req.user, title: 'Upload your comic strips here!'});
 		});
 
 		router.post('/upload', upload.single('image'), function(req, res){
-			console.log(req.file);
 			var comicImage = req.file.path;
-			console.log(comicImage);
-			var results;
+			console.log("url: "+comicImage);
+			var url;
 			cloudinary.uploader.upload(comicImage, function(result) {
-			  console.log(result);
-				console.log(req.body.workspace);
-				results = result;
+				console.log("workspace id: "+req.body.workspace);
+				url = result.url;
+				console.log(url);
 				workspace_model.update(
 					req.body.workspace,
-					{$push: {images: results.url}},
-					{safe: true, upsert: false},
+					{$push: {'images': url}},
+					{safe: false, upsert: false},
 					function(err, model){
-						console.log(err);
+						console.log("errors: "+ err);
 						res.redirect('/workspace/'+req.body.workspace);
 				})
 			});
@@ -310,10 +307,10 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		// 			console.log(user_data);
 		// 			res.render('profile', {user:req.user, profile:profile_data, cloudinary: cloudinary});
 		// 		}
-		// 	})        
+		// 	})
 		//  });
 		router.get('/profile', isAuthenticated, function(req,res, next) {
-					res.render('profile', {user:req.user, profilepic:req.user.profilepic, cloudinary: cloudinary});    
+					res.render('profile', {user:req.user, profilepic:req.user.profilepic, cloudinary: cloudinary});
 		 });
 
 		router.post('/profile', function(req, res){
