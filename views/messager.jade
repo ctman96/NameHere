@@ -1,0 +1,21 @@
+extends layout1
+
+block title
+	title messager
+block content
+	if user.messages 
+		each message, m in user.messages
+			li
+				h1 m.User
+				m.Message
+			br
+		br
+	form#formAdd(name="messge ",method="post",action="/addContributor")
+      input#wsid(type='text', name='Sent To', value=user._id, hidden)
+      |               Send Messsage To:
+      select(name='friends', required)
+        each friend, f in user.friends
+          option(value=friend) #{friend}
+
+	input#message(type="message", placeholder="message", name="message")
+	input#btnSubmit(type='submit', value='Send')
