@@ -14,26 +14,9 @@ block content
     form(method="POST",action="/upload", enctype="multipart/form-data")
 
       select(name="workspace", required)
+        option(selected="selected", disabled) Choose Workspace
         each workspace, w in user.workspaces
           -console.log(workspace)
           option(value=workspace) Workspace #{w+1}
       input#i_file(type="file", name="image" required)
       button#i_submit(type="submit") Upload Image
-
-
-block scripts
-  script(type="text/javascript")
-    // Configure Cloudinary
-    $.cloudinary.config({ api_key: '!{api_key}', cloud_name: '!{cloud_name}' });
-
-    $('.cloudinary-fileupload').bind('fileuploadstart', function(e){
-    $('.preview').html('Upload started...');
-    });
-
-    // Upload finished
-    $('.cloudinary-fileupload').bind('cloudinarydone', function(e, data){
-    $('.preview').html(
-    $.cloudinary.image(data.result.public_id, { format: data.result.format, version: data.result.version, crop: 'scale', width: 100, height: 100 })
-    );
-    return true;
-    });

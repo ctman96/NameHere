@@ -205,6 +205,7 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		});
 
 		router.post('/upload', upload.single('image'), function(req, res){
+			console.log(req.body.workspace)
 			console.log(req.file);
 			var comicImage = req.file.path;
 			console.log(comicImage);
@@ -216,7 +217,7 @@ router.post('/publish', isAuthenticated, function (req, res) {
 				workspace_model.update(
 					req.body.workspace,
 					{$push: {images: results.url}},
-					{safe: false, upsert: false},
+					{},
 					function(err, model){
 						console.log(err);
 						res.redirect('/workspace/'+req.body.workspace);
