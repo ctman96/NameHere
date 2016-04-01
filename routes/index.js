@@ -124,7 +124,7 @@ module.exports = function(passport){
 		workspace_model.update(
 			req.body.workspace,
 			{$push: {panels: {$each: req.body.panels}}},
-			{safe: false, upsert: false},
+			{safe: true, upsert: false},
 			function(err, model){
 				console.log(err);
 				res.redirect('/workspace/'+req.body.workspace);
@@ -137,7 +137,9 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		console.log(req.body);
 		// Get our form values.
 		var comicTitle = req.body.title;
+		console.log(comicTitle);
 		var comicAuthor = req.body.author;
+		console.log(comicAuthor);
 		var comicPanels = req.body.panels;
 		console.log(comicPanels);
 		var comicLength = req.body.truelength;
@@ -205,7 +207,6 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		});
 
 		router.post('/upload', upload.single('image'), function(req, res){
-			console.log(req.body.workspace)
 			console.log(req.file);
 			var comicImage = req.file.path;
 			console.log(comicImage);
@@ -217,7 +218,7 @@ router.post('/publish', isAuthenticated, function (req, res) {
 				workspace_model.update(
 					req.body.workspace,
 					{$push: {images: results.url}},
-					{},
+					{safe: true, upsert: false},
 					function(err, model){
 						console.log(err);
 						res.redirect('/workspace/'+req.body.workspace);
@@ -241,26 +242,24 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		});
 
 		router.post('/addContributor', isAuthenticated, function(req,res, next){
-			var username;
+			/*var username;
 			user_model.findOne({'username': req.body.friends}, function (err, doc){
 				var newworkspaces = doc.workspaces;
-				newworkspaces.push(req.body.addwsID);
+				newworkspaces.push(req.body.adduserID);
 				username = doc.username;
 				doc.workspaces = newworkspaces;
 				doc.save();
-				workspace_model.findOne({'_id': req.body.addwsID}, function (err, doc){
+				workspace_model.findOne({'_id': req.user._id}, function (err, doc){
 					var newauthors = doc.author;
 					newauthors.push(username);
-					doc.author = newauthors;
 					doc.save();
 				})
-			})
+			})*/
 		});
 
 		router.get('/newWorkspace', isAuthenticated, function(req, res, next){
 			var newWorkspace = new workspace;
 			newWorkspace.author = req.user.username;
-			newWorkspace.length = 5;
 			newWorkspace.save(function(err) {
 				if (err){
 						console.log('Error in creating workspace: '+err);
@@ -311,10 +310,11 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		// 			console.log(user_data);
 		// 			res.render('profile', {user:req.user, profile:profile_data, cloudinary: cloudinary});
 		// 		}
-		// 	})
+		// 	})        
 		//  });
 		router.get('/profile', isAuthenticated, function(req,res, next) {
-					res.render('profile', {user:req.user, profilepic:req.user.profilepic, cloudinary: cloudinary});
+			console.log(req.user.profilepic);
+					res.render('profile', {user:req.user, profilepic:req.user.profilepic, cloudinary: cloudinary});    
 		 });
 
 		router.post('/profile', function(req, res){
@@ -325,27 +325,33 @@ router.post('/publish', isAuthenticated, function (req, res) {
 
 		router.get('/editprofile', isAuthenticated, function(req, res, next){
 		  cloudinary.api.resources(function(items){
-		    res.render('editprofile', {user:req.user, title: 'Edit your profile', cloudinary: cloudinary });
+		    res.render('editprofile', {user:req.user, title: 'Edit your profile', file: req.user.profilepic, cloudinary: cloudinary });
 		  });
 		});
 
-		router.post('/editprofile', function(req, res){
-			var profilepic = req.file;
+		router.post('/editprofile', upload.single('image'), function(req, res){
+			var profilepic = req.file.path;
+			//console.log("ID: "+profilepic);
+			var results;
 			cloudinary.uploader.upload(profilepic, function(result) {
-			  console.log(result);
-				console.log(req.body.workspace);
+			  //console.log(result);
+				console.log("UU: "+req.user);
 				results = result;
+				//console.log(results);
 				user_model.update(
-					req.body.user,
+					{username : req.user.username},
 					{$set: {profilepic: results.url}},
-					{safe: true, upsert: false},
+					{safe: false, upsert: false},
 					function(err, model){
-						console.log(err);
+						console.log("RR : " + results.url);
+
+						res.redirect('/profile');
 				})
+
 			});
 		});
 
-		// router.post('/profile', upload.single('profilepic'), function(req, res, next) {
+		// router.post('/editprofile', upload.single('profilepic'), function(req, res, next) {
 		// 	var profilepic = req.file;
 		// 	cloudinary.uploader.upload(profilepic, {public_id: "profilepic"},
 		// 	function(error, result) {console.log(result);})
