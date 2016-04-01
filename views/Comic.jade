@@ -81,9 +81,8 @@ block content
       /*<!--*/ if(!window.hcb_user){hcb_user={  };} (function(){s=document.createElement("script");s.setAttribute("type","text/javascript");s.setAttribute("src", "http://www.htmlcommentbox.com/jread?page="+escape((window.hcb_user && hcb_user.PAGE)||(""+window.location)).replace("+","%2B")+"&opts=470&num=10");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/
     // end htmlcommentbox.com
 
-  body
-    form
-      input(type='button', value='Add To Favorites', onclick='window.external.AddFavorite(location.href, document.title);')
-
-  body
-    input#btnBookmark(type='button', value='Unfavorite', onclick='window.external.AddFavorite(location.href, document.title);')
+    if user
+      form
+        input(type='button', value='Add To Favorites', onclick='window.external.AddFavorite(location.href, document.title);')
+        br
+        input#btnBookmark(type='button', value='Unfavorite', onclick='window.external.AddFavorite(location.href, document.title);')
