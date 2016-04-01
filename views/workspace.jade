@@ -62,22 +62,23 @@ block content
       p Private:
         input#privacy(type="checkbox", name="privacy", value=workspace.privacy, required)
 
-      -var length = workspace.length;
-      input#length(type="text", disabled, value = length, size="3")
+      input#length(type="text", disabled, value = workspace.length, size="3")
       input#inc(type="button", value='+', onclick='addItem()')
       input#dec(type="button", value="-", onclick='remItem()')
       br
 
       - var n = 0
       ul#panels
-        while n < length
+        while n < workspace.length
           each panel, p in workspace.comic
             li
               img(src=panel, height="100", class="droppable")
+              input(type='text', name='panels[#{n}][message]', hidden)
               div(class="deleteMe") X
             -n++
           li
             img(src="http://portfoliotheme.org/enigmatic/wp-content/uploads/sites/9/2012/07/placeholder1.jpg", height="100", class="droppable")
+            input(type='text', name='panels[#{n}][message]', hidden)
             div(class="deleteMe") X
           -n++
 
@@ -119,10 +120,6 @@ block content
   script.
     $(document).ready(function(){
       $(".deleteMe").on("click", function(){
-        //if (document.getElementById("length").value > 1){
-          //document.getElementById("length").value--;
-          //$(this).closest("li").remove();
-        //}
         $(this).closest("li").find('img').attr('src', "http://portfoliotheme.org/enigmatic/wp-content/uploads/sites/9/2012/07/placeholder1.jpg");
       });
       $(".deleteMeAlt").on("click", function(){
@@ -142,16 +139,28 @@ block content
 
     function addItem(){
       document.getElementById("length").value++;
+      var n = document.getElementById("length").value;
+      console.log(n);
+
       var li = document.createElement("LI");
+
       var img = document.createElement("img");
       img.src = "http://portfoliotheme.org/enigmatic/wp-content/uploads/sites/9/2012/07/placeholder1.jpg";
       img.height = "100";
       img.setAttribute("class", "droppable");
+
+      var txt = document.createElement("input");
+      txt.setAttribute("type", "text");
+      txt.setAttribute("name", 'panels[#{n}][message]');
+      console.log(txt.name);
+      txt.setAttribute("hidden", true);
+
       var xdiv = document.createElement("div");
       xdiv.setAttribute("class", "deleteMe");
       xdiv.innerHTML = "X";
 
       li.appendChild(img);
+      li.appendChild(txt);
       li.appendChild(xdiv);
 
       document.getElementById("panels").appendChild(li);
