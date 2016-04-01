@@ -12,7 +12,7 @@ block content
 
     ul
 
-        if (profile.username)
+        if profile
           img(src="#{profile.profilepic}", height="200")
           h2#text Username: #{profile.username}
           h3#text Friends: #{profile.friends}
@@ -20,13 +20,13 @@ block content
           h3#text About Me:
           br
         if user
-          if (user.username == profile.username)
-            form(action='/editprofile', accept-charset='utf-8', method='POST')
-              input(type='button', value = 'Edit Profile', onclick="window.location = 'editprofile';")
-          if (user.username != profile.username)
-            form(action='/addfriend', accept-charset='utf-8', method='POST')
-              input(type='hidden', name='name')
-              input(type='button', value = 'Add Friend')
+          if profile
+            if (user.username == profile.username)
+              a(href='/editprofile') Edit Profile
+            if (user.username != profile.username)
+              form(action='/addfriend', accept-charset='utf-8', method='POST')
+                input(type='hidden', name='name')
+                input(type='button', value = 'Add Friend')
 
 
 

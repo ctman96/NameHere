@@ -9,5 +9,4 @@ module.exports = mongoose.model('User',{
 	workspaces: [String],
 	messages: [{User:String,Message:String}],
 	favourites: [String],
-	birthday:[String],
 });

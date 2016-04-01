@@ -14,7 +14,7 @@ block content
 	ul
 
 		if (user.username)
-			img(src="#{user.profilepic}")
+			img(src="#{user.profilepic}", height="200")
 			form#upload(action="/editprofile", method="post", enctype="multipart/form-data")
 				input(type="file", name="image")
 				input(type="submit", value="Upload Image")
@@ -25,9 +25,10 @@ block content
 			h2#text About Me:
 			h3#text Birthday:
 				input#inputtag2(type="text", placeholder="Birthday", name="Birthday")
-			form(action='/profile', accept-charset='utf-8', method='POST')
+			h3#text Country:
+				input#inputtag2(type="text", placeholder="Country", name="Country")
+			form(action='/profile/'+user.username, accept-charset='utf-8', method='POST')
 				input(type='button', value = 'Save & Submit', onclick="window.location = 'profile';")
-
 block content
 
 block scripts
