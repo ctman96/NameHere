@@ -137,9 +137,7 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		console.log(req.body);
 		// Get our form values.
 		var comicTitle = req.body.title;
-		console.log(comicTitle);
 		var comicAuthor = req.body.author;
-		console.log(comicAuthor);
 		var comicPanels = req.body.panels;
 		console.log(comicPanels);
 		var comicLength = req.body.truelength;
@@ -260,6 +258,7 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		router.get('/newWorkspace', isAuthenticated, function(req, res, next){
 			var newWorkspace = new workspace;
 			newWorkspace.author = req.user.username;
+			newWorkspace.length = 5;
 			newWorkspace.save(function(err) {
 				if (err){
 						console.log('Error in creating workspace: '+err);
