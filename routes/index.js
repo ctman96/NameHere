@@ -241,19 +241,20 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		});
 
 		router.post('/addContributor', isAuthenticated, function(req,res, next){
-			/*var username;
+			var username;
 			user_model.findOne({'username': req.body.friends}, function (err, doc){
 				var newworkspaces = doc.workspaces;
-				newworkspaces.push(req.body.adduserID);
+				newworkspaces.push(req.body.addwsID);
 				username = doc.username;
 				doc.workspaces = newworkspaces;
 				doc.save();
-				workspace_model.findOne({'_id': req.user._id}, function (err, doc){
+				workspace_model.findOne({'_id': req.body.addwsID}, function (err, doc){
 					var newauthors = doc.author;
 					newauthors.push(username);
+					doc.author = newauthors;
 					doc.save();
 				})
-			})*/
+			})
 		});
 
 		router.get('/newWorkspace', isAuthenticated, function(req, res, next){

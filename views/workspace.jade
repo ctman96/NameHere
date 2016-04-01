@@ -11,7 +11,7 @@ block content
       input#id(type="text", name="id", value=workspace._id, hidden)
       |               Title:
       input#inputtitle(type="text", placeholder="comic title", name="title", required, value=workspace.title)
-      |               Author:
+      |               Author(s):
       input#inputauthor(type="text", placeholder="Author", value=workspace.author, name="author", required)
       br
       br
@@ -40,7 +40,7 @@ block content
           each panel, p in workspace.comic
             li
               img(src=panel, height="100", class="droppable")
-              input(type='text', name='panels[]', hidden, value='panel')
+              input(type='text', name='panels[]', hidden, value=panel)
               div(class="deleteMe") X
             -n++
           li
@@ -55,11 +55,11 @@ block content
       br
       br
     form#formAdd(name="addUser",method="post",action="/addContributor")
-      input#wsid(type='text', name='adduserID', hidden)
+      input#wsid(type='text', name='addwsID', value=workspace._id, hidden)
       |               Add Contributor:
       select(name='friends', required)
         each friend, f in user.friends
-          option(value='friend') #{friend}
+          option(value=friend) #{friend}
       input#bttnAddAuth(type='submit', value='add')
     br
     br
