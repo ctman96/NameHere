@@ -38,6 +38,7 @@ module.exports = function(passport){
 			}
 			else {
 					// And forward to success page
+				console.log(comic_data);
 				res.render('home_page',{ user: req.user, comiclist:JSON.stringify(comic_data)});
 			}
 		});
@@ -78,6 +79,11 @@ module.exports = function(passport){
 		failureFlash : true
 	}));
 
+	/* GET Upload Page */
+	router.get('/oldupload', isAuthenticated, function(req, res){
+		res.render('upload', { user: req.user });
+	});
+
 	/* GET Registration Page */
 	router.get('/signup', function(req, res){
 		res.render('register', { user: req.user });
@@ -112,13 +118,13 @@ module.exports = function(passport){
 		});
 
 	router.post('/copy', isAuthenticated, function (req, res) {
-		console.log(req.body.panels);
+		console.log(req.body);
 		if(!req.body.panels) res.redirect('/');
 
 		workspace_model.update(
 			req.body.workspace,
 			{$push: {panels: {$each: req.body.panels}}},
-			{safe: false, upsert: false},
+			{safe: true, upsert: false},
 			function(err, model){
 				console.log(err);
 				res.redirect('/workspace/'+req.body.workspace);
@@ -131,7 +137,9 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		console.log(req.body);
 		// Get our form values.
 		var comicTitle = req.body.title;
+		console.log(comicTitle);
 		var comicAuthor = req.body.author;
+		console.log(comicAuthor);
 		var comicPanels = req.body.panels;
 		console.log(comicPanels);
 		var comicLength = req.body.truelength;
@@ -191,25 +199,28 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		});
 
 
-		/* Upload*/
+		/* Upload/publish */
 		router.get('/upload', isAuthenticated, function(req, res, next){
-		  res.render('newupload', {user:req.user, title: 'Upload your comic strips here!'});
+		  cloudinary.api.resources(function(items){
+		    res.render('newupload', {user:req.user, images: items.resources, title: 'Upload your comic strips here!', cloudinary: cloudinary });
+		  });
 		});
 
 		router.post('/upload', upload.single('image'), function(req, res){
+			console.log(req.file);
 			var comicImage = req.file.path;
-			console.log("url: "+comicImage);
-			var url;
+			console.log(comicImage);
+			var results;
 			cloudinary.uploader.upload(comicImage, function(result) {
-				console.log("workspace id: "+req.body.workspace);
-				url = result.url;
-				console.log(url);
+			  console.log(result);
+				console.log(req.body.workspace);
+				results = result;
 				workspace_model.update(
 					req.body.workspace,
-					{$push: {'images': url}},
-					{safe: false, upsert: false},
+					{$push: {images: results.url}},
+					{safe: true, upsert: false},
 					function(err, model){
-						console.log("errors: "+ err);
+						console.log(err);
 						res.redirect('/workspace/'+req.body.workspace);
 				})
 			});
@@ -217,6 +228,7 @@ router.post('/publish', isAuthenticated, function (req, res) {
 
 		router.get('/workspace/:workspaceId', isAuthenticated, function(req, res, next){
 			var workspaceId = req.params.workspaceId;
+			console.log(workspaceId);
 			workspace_model.findOne( {'_id' : workspaceId}, function(err, workspace_data) {
 				if (err) {
 					res.send("There was a problem accessing the database.");
@@ -224,6 +236,7 @@ router.post('/publish', isAuthenticated, function (req, res) {
 				}
 				else {
 						// And forward to success page
+					console.log(workspace_data);
 					res.render('workspace', {user:req.user, workspace:workspace_data, title: 'Rearrange your uploaded panels to create a new comic strip!'});
 			}})
 		});
@@ -247,7 +260,6 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		router.get('/newWorkspace', isAuthenticated, function(req, res, next){
 			var newWorkspace = new workspace;
 			newWorkspace.author = req.user.username;
-			newWorkspace.length = 5;
 			newWorkspace.save(function(err) {
 				if (err){
 						console.log('Error in creating workspace: '+err);
@@ -285,6 +297,58 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		})
 		res.redirect('/')
 	})
+
+		// router.get('/profile/:profileId', isAuthenticated, function(req,res, next) {
+		// 	var userId = req.params.userId;
+		// 	console.log(userId);
+		// 	user_model.findOne( {'_id' : req.user.userId}, function(err, user_data) {
+		// 		if (err) {
+		// 			res.send("There was a problem accessing the database.");
+		// 			res.redirect('/');
+		// 		}
+		// 		else {
+		// 			console.log(user_data);
+		// 			res.render('profile', {user:req.user, profile:profile_data, cloudinary: cloudinary});
+		// 		}
+		// 	})        
+		//  });
+		router.get('/profile', isAuthenticated, function(req,res, next) {
+					res.render('profile', {user:req.user, profilepic:req.user.profilepic, cloudinary: cloudinary});    
+		 });
+
+		router.post('/profile', function(req, res){
+			 var imageStream = fs.createReadStream(req.files.image.path, { encoding: 'binary' })
+    		, cloudStream = cloudinary.uploader.upload_stream(function() { res.redirect('/editprofile'); });
+  			imageStream.on('data', cloudStream.write).on('end', cloudStream.end);
+		});
+
+		router.get('/editprofile', isAuthenticated, function(req, res, next){
+		  cloudinary.api.resources(function(items){
+		    res.render('editprofile', {user:req.user, title: 'Edit your profile', cloudinary: cloudinary });
+		  });
+		});
+
+		router.post('/editprofile', function(req, res){
+			var profilepic = req.file;
+			cloudinary.uploader.upload(profilepic, function(result) {
+			  console.log(result);
+				console.log(req.body.workspace);
+				results = result;
+				user_model.update(
+					req.body.user,
+					{$set: {profilepic: results.url}},
+					{safe: true, upsert: false},
+					function(err, model){
+						console.log(err);
+				})
+			});
+		});
+
+		// router.post('/profile', upload.single('profilepic'), function(req, res, next) {
+		// 	var profilepic = req.file;
+		// 	cloudinary.uploader.upload(profilepic, {public_id: "profilepic"},
+		// 	function(error, result) {console.log(result);})
+		// });
 
 
 	return router;
