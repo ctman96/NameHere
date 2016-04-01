@@ -199,25 +199,28 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		});
 
 
-		/* Upload*/
+		/* Upload/publish */
 		router.get('/upload', isAuthenticated, function(req, res, next){
-		  res.render('newupload', {user:req.user, title: 'Upload your comic strips here!'});
+		  cloudinary.api.resources(function(items){
+		    res.render('newupload', {user:req.user, images: items.resources, title: 'Upload your comic strips here!', cloudinary: cloudinary });
+		  });
 		});
 
 		router.post('/upload', upload.single('image'), function(req, res){
+			console.log(req.file);
 			var comicImage = req.file.path;
-			console.log("url: "+comicImage);
-			var url;
+			console.log(comicImage);
+			var results;
 			cloudinary.uploader.upload(comicImage, function(result) {
-				console.log("workspace id: "+req.body.workspace);
-				url = result.url;
-				console.log(url);
+			  console.log(result);
+				console.log(req.body.workspace);
+				results = result;
 				workspace_model.update(
 					req.body.workspace,
-					{$push: {'images': url}},
+					{$push: {images: results.url}},
 					{safe: false, upsert: false},
 					function(err, model){
-						console.log("errors: "+ err);
+						console.log(err);
 						res.redirect('/workspace/'+req.body.workspace);
 				})
 			});
