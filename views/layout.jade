@@ -35,7 +35,7 @@ html
               a(href='/newWorkspace') Create New
         li
           if user
-            a(href='/profile') Profile
+            a(href='/profile/' + user._id) Profile
         li
           if user
             a(href='/signout') Log Out
