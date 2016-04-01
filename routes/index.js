@@ -198,10 +198,19 @@ router.post('/publish', isAuthenticated, function (req, res) {
 			console.log(req.file);
 			var comicImage = req.file.path;
 			console.log(comicImage);
+			var results;
 			cloudinary.uploader.upload(comicImage, function(result) {
-			  console.log(result)
-				//add it to the workspace
-				res.redirect('/workspace')
+			  console.log(result);
+				console.log(req.body.workspace);
+				results = result;
+				workspace_model.update(
+					req.body.workspace,
+					{$push: {images: results.url}},
+					{safe: true, upsert: false},
+					function(err, model){
+						console.log(err);
+						res.redirect('/workspace/'+req.body.workspace);
+				})
 			});
 		});
 
@@ -228,11 +237,11 @@ router.post('/publish', isAuthenticated, function (req, res) {
 				username = doc.username;
 				doc.workspaces = newworkspaces;
 				doc.save();
-			})
-			workspace_model.findOne({'_id': req.user._id}, function (err, doc){
-				var newauthors = doc.author;
-				newauthors.push(username);
-				doc.save();
+				workspace_model.findOne({'_id': req.user._id}, function (err, doc){
+					var newauthors = doc.author;
+					newauthors.push(username);
+					doc.save();
+				})
 			})
 		});
 

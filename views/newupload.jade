@@ -12,9 +12,11 @@ block content
   h1#title= title
   div#upload
     form(method="POST",action="/upload", enctype="multipart/form-data")
-      //select
-        //each workspace, w in workspaces
-          //option(value=w._id) w.title
+
+      select(name="workspace", required)
+        each workspace, w in user.workspaces
+          -console.log(workspace)
+          option(value=workspace) Workspace #{w+1}
       input#i_file(type="file", name="image" required)
       button#i_submit(type="submit") Upload Image
 
