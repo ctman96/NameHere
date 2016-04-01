@@ -35,6 +35,9 @@ html
               a(href='/newWorkspace') Create New
         li
           if user
+            a(href='/profile') Profile
+        li
+          if user
             a(href='/signout') Log Out
         // Add links here!
         ul(style='float:right; padding: 15px 15px;')

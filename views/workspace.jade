@@ -45,7 +45,7 @@ block content
   body
     h1#title= title
     p#text Drag your comic panels into the box:
-    form#formPublish(name="publish",method="post", onsubmit="return onsubmitform();", action="/publish")
+    form#formPublish(name="publish",method="post",action="/publish")
       input#id(type="text", name="id", value=workspace._id, hidden)
       |               Title:
       input#inputtitle(type="text", placeholder="comic title", name="title", required, value=workspace.title)
