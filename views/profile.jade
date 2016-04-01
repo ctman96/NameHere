@@ -24,6 +24,8 @@ block content
             form(action='/editprofile', accept-charset='utf-8', method='POST')
               input(type='button', value = 'Edit Profile', onclick="window.location = 'editprofile';")
           if (user.username != profile.username)
+            form(action='/addfriend', accept-charset='utf-8', method='POST')
+              input(type='hidden', name='name')
               input(type='button', value = 'Add Friend')
 
 

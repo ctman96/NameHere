@@ -350,6 +350,30 @@ router.post('/publish', isAuthenticated, function (req, res) {
 			});
 		});
 
+		router.post('/addfriend', isAuthenticated, function(req, res, next){
+			user_model.findOne( {'username' : userId}, function(err, user_data) {
+				if (err) {
+					res.send("There was a problem accessing the database.");
+					res.redirect('/');
+				}
+				else {
+					user_data.push(req.body.name)
+					doc.save();
+					user_model.findOne( {'username' : req.body.name}, function(err, profile_data) {
+						if (err) {
+							res.send("There was a problem accessing the database.");
+							res.redirect('/');
+						}
+						else {
+							profile_data.push(userId);
+							doc.save();
+							res.render('profile', {user:req.user, profile:profile_data, cloudinary: cloudinary});
+						}
+					})
+				}
+			})
+		})
+
 		// router.post('/profile', upload.single('profilepic'), function(req, res, next) {
 		// 	var profilepic = req.file;
 		// 	cloudinary.uploader.upload(profilepic, {public_id: "profilepic"},
