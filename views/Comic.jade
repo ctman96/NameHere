@@ -6,7 +6,14 @@ block content
 
   head
     style.
-      #div1 {width:750px;height:220px;padding:10px;border:1px solid #aaaaaa;}
+      ul#panels {
+      list-style: none;
+      margin: 0px;
+      }
+      ul#panels li{
+      display: inline-block;
+      padding: 5px;
+      }
     script.
       function allowDrop(ev) {
       ev.preventDefault();
@@ -40,9 +47,9 @@ block content
       li
         if comic.panels
           each panel, p in comic.panels
-            img#drag1(src = panel, height="200", draggable='true', ondragstart='drag(event)')
+            img#drag1(src = panel, height="200")
         else
-          img(src= comic.image, alt="placeholder", height="200", draggable='true', ondragstart='drag(event)')
+          img(src= comic.image, alt="placeholder", height="200")
       li
         p
           b Author: #{ comic.author}
@@ -51,10 +58,18 @@ block content
 
 
   body
-    if user
-      p Drag the comic panel you like into the rectangle:
-      #div1(ondrop='drop(event)', ondragover='allowDrop(event)')
+    if user && !comic.privacy
       br
-      h1(id="title") Select the panel you like
-        button(class="btn", data-action="bea").
-          Add to the workspace
+      div
+        form#copy(name="copy",method="post",action="/copy")
+          p Choose the panels you would like to use:
+          ul#panels
+            each panel, p in comic.panels
+              li
+                img(src=panel, height="30", class="droppable")
+                input(type='checkbox', name='panels[]', value='#{panel}')
+          select(name="workspace", required)
+            each workspace, w in user.workspaces
+              option(value=workspace) Workspace #{w+1}
+          br
+          input(type='submit', value='Add to the workspace')

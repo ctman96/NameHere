@@ -117,6 +117,21 @@ module.exports = function(passport){
 			}})
 		});
 
+	router.post('/copy', isAuthenticated, function (req, res) {
+		console.log(req.body);
+		if(!req.body.panels) res.redirect('/');
+
+		workspace_model.update(
+			req.body.workspace,
+			{$push: {panels: {$each: req.body.panels}}},
+			{safe: true, upsert: false},
+			function(err, model){
+				console.log(err);
+				res.redirect('/workspace/'+req.body.workspace);
+		})
+	});
+
+
 	/* Posting to publish service          @ 2/10/2016*/
 router.post('/publish', isAuthenticated, function (req, res) {
 		console.log(req.body);
@@ -227,7 +242,7 @@ router.post('/publish', isAuthenticated, function (req, res) {
 		});
 
 		router.post('/addContributor', isAuthenticated, function(req,res, next){
-			var username;
+			/*var username;
 			user_model.findOne({'username': req.body.friends}, function (err, doc){
 				var newworkspaces = doc.workspaces;
 				newworkspaces.push(req.body.adduserID);
@@ -239,7 +254,7 @@ router.post('/publish', isAuthenticated, function (req, res) {
 					newauthors.push(username);
 					doc.save();
 				})
-			})
+			})*/
 		});
 
 		router.get('/newWorkspace', isAuthenticated, function(req, res, next){

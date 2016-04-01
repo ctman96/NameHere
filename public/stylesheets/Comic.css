@@ -10,3 +10,12 @@
 #comic{
 list-style: none;
 }
+#copy{
+  position: relative;
+  margin-top:10px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align:center;
+  background-color: grey;
+  border-style: double;
+}
