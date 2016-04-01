@@ -50,7 +50,7 @@ block content
       |               Title:
       input#inputtitle(type="text", placeholder="comic title", name="title", required, value=workspace.title)
       |               Author:
-      input#inputauthor(type="text", placeholder="Author", value=workspace.author, name="author", required, disabled)
+      input#inputauthor(type="text", placeholder="Author", value=workspace.author, name="author", required)
       br
       br
       |               Tags:
@@ -58,27 +58,32 @@ block content
       input#inputtag2(type="text", placeholder="tag2", name="tag2")
       input#inputtag3(type="text", placeholder="tag3", name="tag3")
       input#inputtag4(type="text", placeholder="tag4", name="tag4")
-
-      p Private:
-        input#privacy(type="checkbox", name="privacy", value=workspace.privacy, required)
-
-      input#length(type="text", disabled, value = workspace.length, size="3")
+      br
+      br
+      |               Private:
+      input#privacy(type="checkbox", name="privacy", value=workspace.privacy)
+      br
+      br
+      input#length(type="text", disabled, name="length", value = workspace.length, size="3")
+      input#_length(type="text", hidden, name="truelength", value = workspace.length, size="3")
       input#inc(type="button", value='+', onclick='addItem()')
       input#dec(type="button", value="-", onclick='remItem()')
       br
+      br
 
       - var n = 0
+      - var placeholder = "http://portfoliotheme.org/enigmatic/wp-content/uploads/sites/9/2012/07/placeholder1.jpg"
       ul#panels
         while n < workspace.length
           each panel, p in workspace.comic
             li
               img(src=panel, height="100", class="droppable")
-              input(type='text', name='panels[#{n}][message]', hidden)
+              input(type='text', name='panels[]', hidden, value='panel')
               div(class="deleteMe") X
             -n++
           li
-            img(src="http://portfoliotheme.org/enigmatic/wp-content/uploads/sites/9/2012/07/placeholder1.jpg", height="100", class="droppable")
-            input(type='text', name='panels[#{n}][message]', hidden)
+            img(src=placeholder, height="100", class="droppable")
+            input(type='text', name='panels[]', hidden, value=placeholder)
             div(class="deleteMe") X
           -n++
 
@@ -119,6 +124,7 @@ block content
   script(src="//code.jquery.com/ui/1.11.2/jquery-ui.js")
   script.
     $(document).ready(function(){
+      $('input[name=length]').val($('#_length').val());
       $(".deleteMe").on("click", function(){
         $(this).closest("li").find('img').attr('src', "http://portfoliotheme.org/enigmatic/wp-content/uploads/sites/9/2012/07/placeholder1.jpg");
       });
@@ -133,6 +139,7 @@ block content
     $(".droppable").droppable({
       drop: function(event, ui) {
         $(this).attr("src", ui.draggable.attr("src"));
+        $(this).closest("li").find('input').attr('value', ui.draggable.attr("src"));
       }
     });
     var list = document.getElementById('panels');
@@ -151,7 +158,7 @@ block content
 
       var txt = document.createElement("input");
       txt.setAttribute("type", "text");
-      txt.setAttribute("name", 'panels[#{n}][message]');
+      txt.setAttribute("name", 'panels[]');
       console.log(txt.name);
       txt.setAttribute("hidden", true);
 

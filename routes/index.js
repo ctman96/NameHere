@@ -124,12 +124,13 @@ module.exports = function(passport){
 
 	/* Posting to publish service          @ 2/10/2016*/
 router.post('/publish', isAuthenticated, function (req, res) {
+		console.log(req.body);
 		// Get our form values.
 		var comicTitle = req.body.title;
 		console.log(comicTitle);
 		var comicAuthor = req.body.author;
 		console.log(comicAuthor);
-		var comicImage = req.body.image;
+		var comicPanels = req.body.panels;
 		console.log(comicImage);
 		var editable = req.body.privacy;
 		var comicTag1 = req.body.tag1;
