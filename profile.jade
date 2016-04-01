@@ -1,0 +1,29 @@
+extends layout1
+
+block title
+  title profile
+block content
+    head
+      style.
+        #title {position:relative; margin-top:300px;}
+        #upload {position:relative; margin-top:10px;}
+
+    h1#title= title
+
+    ul
+        
+        if (user.username)
+          img(src="#{user.profilepic}")
+          h2#text Username: #{user.username}
+          h3#text Friends: #{user.friends}
+          h3#text Favorites: #{user.favourites}
+          h3#text About Me:
+          br
+          form(action='/editprofile', accept-charset='utf-8', method='POST')
+            input(type='button', value = 'Edit Profile', onclick="window.location = 'editprofile';") 
+          
+
+
+
+block scripts
+
