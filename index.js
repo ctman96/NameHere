@@ -332,11 +332,12 @@ router.post('/publish', isAuthenticated, function (req, res) {
 			var profilepic = req.file;
 			cloudinary.uploader.upload(profilepic, function(result) {
 			  console.log(result);
-				console.log(req.body.workspace);
-				results = result;
+				console.log(req.body.user);
+				results = cloudinary.image("profilepic");
+				console.log(results);
 				user_model.update(
 					req.body.user,
-					{$set: {profilepic: results.url}},
+					{$set: {profilepic: results}},
 					{safe: true, upsert: false},
 					function(err, model){
 						console.log(err);
@@ -344,7 +345,7 @@ router.post('/publish', isAuthenticated, function (req, res) {
 			});
 		});
 
-		// router.post('/profile', upload.single('profilepic'), function(req, res, next) {
+		// router.post('/editprofile', upload.single('profilepic'), function(req, res, next) {
 		// 	var profilepic = req.file;
 		// 	cloudinary.uploader.upload(profilepic, {public_id: "profilepic"},
 		// 	function(error, result) {console.log(result);})

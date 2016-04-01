@@ -16,8 +16,8 @@ block content
 		if (user.username)
 			img(src="#{user.profilepic}")
 			form#upload(action="/editprofile", method="post", enctype="multipart/form-data")
-			input(type="file", name="image")
-			input(type="submit", value="Upload Image")
+				input(type="file", name="image")
+				input(type="submit", value="Upload Image")
 			h2#text Username: #{user.username}
 			h3#text Friends: #{user.friends}
 			h3#text Favorites: #{user.favourites}
